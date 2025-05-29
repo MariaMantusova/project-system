@@ -1,7 +1,8 @@
 import React from 'react';
+import ErrorBlock from '../components/ErrorBlock/ErrorBlock';
 
 function ErrorPage() {
-  return <p> Это Error Page </p>;
+  return <ErrorBlock />;
 }
 
 export default ErrorPage;
