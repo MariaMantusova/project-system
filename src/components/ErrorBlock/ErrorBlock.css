@@ -16,9 +16,9 @@
 }
 
 .error-block_link {
-    color: #A7BEAE;
+    color: var(--main-green-color);
     border-radius: 15px;
-    border: 1px solid #A7BEAE;
+    border: 1px solid var(--main-green-color);
     text-decoration: none;
     padding: 12px 20px;
     transition: background-color 0.5s ease, color 0.5s ease;
@@ -26,5 +26,5 @@
 
 .error-block_link:hover {
     color: white;
-    background-color: #A7BEAE;
+    background-color: var(--main-green-color);
 }
