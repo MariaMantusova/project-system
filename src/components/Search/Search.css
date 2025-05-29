@@ -1,0 +1,11 @@
+.search {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.search__input {
+    max-width: 50%;
+}
