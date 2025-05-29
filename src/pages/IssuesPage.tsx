@@ -1,7 +1,15 @@
 import React from 'react';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 function IssuesPage() {
-  return <p> Это Issues Page </p>;
+  return (
+    <>
+      <Header />
+      <p> Это Issues Page </p>
+      <Footer />
+    </>
+  );
 }
 
 export default IssuesPage;

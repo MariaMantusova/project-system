@@ -1,14 +1,18 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import MainForm from '../components/MainForm/MainForm';
+import PopupForm from '../components/PopupForm/PopupForm';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 function BoardPage() {
   const { id } = useParams();
 
   return (
     <>
+      <Header />
       <p> Это Board Page № {id} </p>
-      <MainForm />
+      <PopupForm />
+      <Footer />
     </>
   );
 }
