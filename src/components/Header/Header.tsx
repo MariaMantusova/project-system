@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 import { Link } from 'react-router';
+import MainButton from '../MainButton/MainButton';
 
 function Header() {
   return (
@@ -13,7 +14,7 @@ function Header() {
           Проекты
         </Link>
       </menu>
-      <button className="header__button">Создать задачу</button>
+      <MainButton />
     </header>
   );
 }
