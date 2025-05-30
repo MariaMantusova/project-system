@@ -2,17 +2,19 @@ import React from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Search from '../components/Search/Search';
-import List from '../components/List/List';
-import MainButton from '../components/MainButton/MainButton';
+import { IIssue } from '../App';
+import IssuesBlock from '../components/IssuesBlock/IssuesBlock';
 
-function IssuesPage() {
+interface IIssuesPageProps {
+  issues: IIssue[];
+}
+
+function IssuesPage(props: IIssuesPageProps) {
   return (
     <>
-      {/*<Header />*/}
+      <Header pageName="issues" />
       <Search />
-      {/*<List>*/}
-      {/*  <MainButton />*/}
-      {/*</List>*/}
+      <IssuesBlock issues={props.issues} />
       <Footer />
     </>
   );

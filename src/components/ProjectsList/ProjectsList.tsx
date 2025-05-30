@@ -1,27 +1,25 @@
 import React from 'react';
-import './List.css';
+import './ProjectsList.css';
 import ListItem from '../ListItem/ListItem';
 import { IBoard } from '../../App';
 import { Link } from 'react-router';
 
-interface IListProps {
-  children?: React.ReactNode;
+interface IProjectsListProps {
   boards: IBoard[];
 }
 
-function List(props: IListProps) {
+function ProjectsList(props: IProjectsListProps) {
   return (
     <ul className="list">
       {props.boards.map((board: IBoard) => (
-        <ListItem key={board.id} board={board}>
+        <ListItem key={board.id} title={board.name} id={board.id}>
           <Link to={`/board/${board.id}`} className="list__item__link">
             Перейти к доске &#8594;
           </Link>
         </ListItem>
       ))}
-      {props.children}
     </ul>
   );
 }
 
-export default List;
+export default ProjectsList;

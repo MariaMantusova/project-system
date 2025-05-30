@@ -7,7 +7,7 @@ interface IApiOptions {
   };
 }
 
-class BoardsApi {
+class IssuesApi {
   private _url: string;
   private _header: { [key: string]: string };
 
@@ -16,7 +16,7 @@ class BoardsApi {
     this._header = options.headers;
   }
 
-  getBoards() {
+  getIssues() {
     return axios
       .get(this._url, {
         headers: this._header,
@@ -30,10 +30,10 @@ class BoardsApi {
 }
 
 const BoardsApiOptions: IApiOptions = {
-  url: 'http://localhost:8080/api/v1/boards',
+  url: 'http://localhost:8080/api/v1/tasks',
   headers: {
     'Content-Type': 'application/json',
   },
 };
 
-export const BoardApi = new BoardsApi(BoardsApiOptions);
+export const IssueApi = new IssuesApi(BoardsApiOptions);

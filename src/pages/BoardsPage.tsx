@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import List from '../components/List/List';
+import ProjectsList from '../components/ProjectsList/ProjectsList';
 import { IBoard } from '../App';
 
 interface IBoardsPageProps {
@@ -11,8 +11,8 @@ interface IBoardsPageProps {
 function BoardsPage(props: IBoardsPageProps) {
   return (
     <>
-      <Header pageName='boards' />
-      <List boards={props.boards} />
+      <Header pageName="boards" />
+      <ProjectsList boards={props.boards} />
       <Footer />
     </>
   );
