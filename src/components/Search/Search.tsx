@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Search.css";
+import './Search.css';
 import { Input, Select } from 'antd';
 
 const { Search } = Input;
@@ -17,11 +17,13 @@ function SearchSection() {
     { value: 'done', label: 'Done' },
   ];
 
-  return (<section className="search">
-    <Search className="search__input" placeholder="Поиск" enterButton />
-    <Select placeholder="Выбрать статус" options={statusOptions}/>
-    <Select placeholder="Выбрать доску" options={projectOptions}/>
-  </section>)
+  return (
+    <section className="search">
+      <Search className="search__input" placeholder="Поиск" enterButton />
+      <Select placeholder="Выбрать статус" options={statusOptions} />
+      <Select placeholder="Выбрать доску" options={projectOptions} />
+    </section>
+  );
 }
 
 export default SearchSection;

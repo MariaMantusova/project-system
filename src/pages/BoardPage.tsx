@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import PopupForm from '../components/PopupForm/PopupForm';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import KanbanBlock from '../components/KanbanBlock/KanbanBLock';
 
 function BoardPage() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ function BoardPage() {
   return (
     <>
       <Header />
-      <p> Это Board Page № {id} </p>
+      <KanbanBlock />
       <PopupForm />
       <Footer />
     </>

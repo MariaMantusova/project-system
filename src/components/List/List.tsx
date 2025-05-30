@@ -1,8 +1,8 @@
 import React from 'react';
-import "./List.css";
+import './List.css';
 import ListItem from '../ListItem/ListItem';
 
-function List(props: {children?: React.ReactNode}) {
+function List(props: { children?: React.ReactNode }) {
   return (
     <ul className="list">
       <ListItem />
@@ -14,7 +14,7 @@ function List(props: {children?: React.ReactNode}) {
 
       {props.children}
     </ul>
-  )
+  );
 }
 
 export default List;
