@@ -1,15 +1,19 @@
 import React from 'react';
 import './Search.css';
 import { Input, Select } from 'antd';
+import { IBoard } from '../../App';
 
 const { Search } = Input;
 
-function SearchSection() {
-  const projectOptions: { value: string; label: string }[] = [
-    { value: 'JS project', label: 'JS project' },
-    { value: 'Mariia', label: 'Mariia' },
-    { value: 'Sevak', label: 'Sevak' },
-  ];
+interface ISearchProps {
+  boards: IBoard[];
+}
+
+function SearchSection(props: ISearchProps) {
+  const projectOptions: { value: number; label: string }[] = props.boards.map(item => ({
+    value: item.id,
+    label: `${item.id}. ${item.name}`
+  }));
 
   const statusOptions: { value: string; label: string }[] = [
     { value: 'todo', label: 'To do' },

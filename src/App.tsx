@@ -62,7 +62,7 @@ function App() {
     <Routes>
       <Route path="/boards" element={<BoardsPage boards={boards} />} />
       <Route path="/board/:id" element={<BoardPage />} />
-      <Route path="/issues" element={<IssuesPage issues={issues} />} />
+      <Route path="/issues" element={<IssuesPage issues={issues} boards={boards} />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
