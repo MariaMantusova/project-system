@@ -4,7 +4,7 @@ import KanbanBoard from '../KanbanBoard/KanbanBoard';
 
 function KanbanBlock() {
   return (
-    <section className="boaard-container">
+    <section className="board-container">
       <h1 className="board__title">Название проекта</h1>
       <KanbanBoard />
     </section>

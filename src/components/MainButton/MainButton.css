@@ -11,6 +11,14 @@
   cursor: pointer;
 }
 
+@media (max-width: 500px) {
+  .header__button {
+    font-size: 13px;
+    border-radius: 15px;
+    padding: 8px 10px;
+  }
+}
+
 .header__button:hover {
   color: white;
   background-color: var(--main-orange-color);

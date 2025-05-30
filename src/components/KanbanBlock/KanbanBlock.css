@@ -1,4 +1,4 @@
-.boaard-container {
+.board-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,4 +11,10 @@
   font-weight: bold;
   margin: 0 0 50px;
   text-align: center;
+}
+
+@media (max-width: 500px) {
+  .board__title {
+    font-size: 22px;
+  }
 }
