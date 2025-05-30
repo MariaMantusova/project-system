@@ -1,0 +1,13 @@
+.footer {
+  color: white;
+  background-color: var(--main-green-color);
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    font-size: 13px;
+  }
+}
