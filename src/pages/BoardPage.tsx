@@ -10,7 +10,7 @@ function BoardPage() {
 
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <KanbanBlock />
       <PopupForm />
       <Footer />

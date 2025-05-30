@@ -6,7 +6,7 @@ import Footer from '../components/Footer/Footer';
 function ErrorPage() {
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <ErrorBlock />
       <Footer />
     </>

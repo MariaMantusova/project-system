@@ -39,10 +39,17 @@
   }
 }
 
+.header__link:hover {
+  opacity: 0.6;
+}
+
 .header__link_active {
   color: var(--main-orange-color);
 }
 
-.header__link:hover {
-  opacity: 0.6;
+.header__link_active:hover {
+  opacity: 1;
+  cursor: default;
 }
+
+

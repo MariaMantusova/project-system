@@ -3,14 +3,24 @@ import './Header.css';
 import { Link } from 'react-router';
 import MainButton from '../MainButton/MainButton';
 
-function Header() {
+interface IHeaderProps {
+  pageName: string;
+}
+
+function Header(props: IHeaderProps) {
   return (
     <header className="header">
       <menu className="header__menu">
-        <Link className="header__link" to="/issues">
+        <Link
+          className={`header__link ${props.pageName === 'issues' && 'header__link_active'}`}
+          to="/issues"
+        >
           Все задачи
         </Link>
-        <Link className="header__link" to="/boards">
+        <Link
+          className={`header__link ${props.pageName === 'boards' && 'header__link_active'}`}
+          to="/boards"
+        >
           Проекты
         </Link>
       </menu>

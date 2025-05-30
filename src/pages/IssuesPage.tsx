@@ -8,11 +8,11 @@ import MainButton from '../components/MainButton/MainButton';
 function IssuesPage() {
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <Search />
-      <List>
-        <MainButton />
-      </List>
+      {/*<List>*/}
+      {/*  <MainButton />*/}
+      {/*</List>*/}
       <Footer />
     </>
   );
