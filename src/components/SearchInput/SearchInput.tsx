@@ -1,34 +1,38 @@
 import React from 'react';
-import { useState } from "react";
-import "./SearchInput.css";
+import './SearchInput.css';
 
-function SearchInput() {
-  const [query, setQuery] = useState("");
-  const [field, setField] = useState<string>("name");
+interface ISearchInputProps {
+  query: string;
+  field: string;
+  setField: React.Dispatch<React.SetStateAction<string>>;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+}
 
+function SearchInput(props: ISearchInputProps) {
   const handleSearch = () => {
-    console.log("Поиск:", query, "по полю:", field);
+    console.log('Поиск:', props.query, 'по полю:', props.field);
   };
 
   return (
     <section className="search-container">
       <select
         className="search-select"
-        value={field}
-        onChange={(e) => setField(e.target.value)}
+        value={props.field}
+        onChange={e => props.setField(e.target.value)}
       >
         <option value="name">По названию</option>
-        <option value="executor">По исполнителю</option>
+        <option value="assignee">По исполнителю</option>
       </select>
 
       <input
         className="search-input"
         type="text"
         placeholder="Поиск"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={props.query}
+        onChange={e => props.setQuery(e.target.value)}
       />
-      <button className="search-button" onClick={handleSearch}>🔍
+      <button className="search-button" onClick={handleSearch}>
+        🔍
       </button>
     </section>
   );
