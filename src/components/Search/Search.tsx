@@ -1,9 +1,8 @@
 import React from 'react';
 import './Search.css';
-import { Input, Select } from 'antd';
+import { Select } from 'antd';
 import { IBoard } from '../../App';
-
-const { Search } = Input;
+import SearchInput from '../SearchInput/SearchInput';
 
 interface ISearchProps {
   boards: IBoard[];
@@ -16,14 +15,14 @@ function SearchSection(props: ISearchProps) {
   }));
 
   const statusOptions: { value: string; label: string }[] = [
-    { value: 'todo', label: 'To do' },
-    { value: 'progress', label: 'In progress' },
-    { value: 'done', label: 'Done' },
+    { value: 'Backlog', label: 'To do' },
+    { value: 'InProgress', label: 'In progress' },
+    { value: 'Done', label: 'Done' },
   ];
 
   return (
     <section className="search">
-      <Search className="search__input" placeholder="Поиск" enterButton />
+      <SearchInput />
       <Select placeholder="Выбрать статус" options={statusOptions} />
       <Select placeholder="Выбрать доску" options={projectOptions} />
     </section>
