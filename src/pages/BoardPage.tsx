@@ -5,7 +5,9 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import KanbanBlock from '../components/KanbanBlock/KanbanBLock';
 import { ColumnType } from '../components/KanbanBoard/KanbanBoard';
-import { IBoard } from '../App';
+import { IBoard, IIssue } from '../App';
+import { INewIssue } from '../utils/IssuesApi';
+import { IUser } from '../components/MainForm/MainForm';
 
 export interface IBoardIssue {
   id: number;
@@ -23,7 +25,9 @@ export interface IBoardIssue {
 
 interface IBoardPageProps {
   boardIssues: IBoardIssue[];
+  createIssue: (newIssue: INewIssue) => void;
   boards: IBoard[];
+  users: IUser[];
   getBoardById: (id: string) => void;
   changeIssueStatus: (id: string, status: string) => void;
 }
@@ -32,6 +36,7 @@ function BoardPage(props: IBoardPageProps) {
   const { id } = useParams<string>();
   const boardIssues: IBoardIssue[] = props.boardIssues;
   const [title, setTitle] = useState<string>('');
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) props.getBoardById(id);
@@ -45,15 +50,27 @@ function BoardPage(props: IBoardPageProps) {
       setTitle(board.name);
     }
   }, [id, props.boards]);
+
+  function handleOpenPopup() {
+    setIsPopupOpen(true);
+  }
+
   return (
     <>
-      <Header pageName="board" />
+      <Header pageName="board" handleOpenPopup={handleOpenPopup} />
       <KanbanBlock
         changeIssueStatus={props.changeIssueStatus}
         boardIssues={boardIssues}
         boardTitle={title}
       />
-      <PopupForm />
+      <PopupForm
+        boards={props.boards}
+        createIssue={props.createIssue}
+        setIsOpened={setIsPopupOpen}
+        title="Создать задачу"
+        isOpened={isPopupOpen}
+        users={props.users}
+      />
       <Footer />
     </>
   );

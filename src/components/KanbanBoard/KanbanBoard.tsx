@@ -53,7 +53,7 @@ function KanbanBoard({ issues: externalIssues, changeIssueStatus }: IKanbanBoard
 
     if (sourceColumn !== destinationColumn) {
       movedIssue.status = destinationColumn;
-      changeIssueStatus(movedIssue.id.toString(), destinationColumn)
+      changeIssueStatus(movedIssue.id.toString(), destinationColumn);
     }
 
     destinationItems.splice(destination.index, 0, movedIssue);

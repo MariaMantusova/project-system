@@ -51,7 +51,7 @@ function IssuesPage(props: IIssuesPageProps) {
 
   return (
     <>
-      <Header pageName="issues" />
+      {/*<Header pageName="issues" />*/}
       <Search
         boards={props.boards}
         query={searchQuery}

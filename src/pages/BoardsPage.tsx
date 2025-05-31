@@ -11,7 +11,7 @@ interface IBoardsPageProps {
 function BoardsPage(props: IBoardsPageProps) {
   return (
     <>
-      <Header pageName="boards" />
+      {/*<Header pageName="boards" />*/}
       <ProjectsList boards={props.boards} />
       <Footer />
     </>

@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-interface IApiOptions {
+export interface INewIssue {
+  assigneeId: number | undefined;
+  boardId: number | undefined;
+  description: string;
+  priority: string | undefined;
+  title: string;
+}
+
+export interface IApiOptions {
   url: string;
   headers: {
     'Content-Type': string;
@@ -31,6 +39,16 @@ class IssuesApi {
   changeIssueStatus(id: string | undefined, status: string) {
     return axios
       .put(`${this._url}/updateStatus/${id}`, { status }, { headers: this._header })
+      .then(response => response.data)
+      .catch(error => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  }
+
+  createIssue(newIssue: INewIssue) {
+    return axios
+      .post(`${this._url}/create`, { ...newIssue }, { headers: this._header })
       .then(response => response.data)
       .catch(error => {
         console.log(error);

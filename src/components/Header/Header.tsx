@@ -5,6 +5,7 @@ import MainButton from '../MainButton/MainButton';
 
 interface IHeaderProps {
   pageName: string;
+  handleOpenPopup: () => void;
 }
 
 function Header(props: IHeaderProps) {
@@ -24,7 +25,7 @@ function Header(props: IHeaderProps) {
           Проекты
         </Link>
       </menu>
-      <MainButton />
+      <MainButton handleOpenPopup={props.handleOpenPopup} />
     </header>
   );
 }

@@ -6,7 +6,9 @@ import BoardsPage from './pages/BoardsPage';
 import IssuesPage from './pages/IssuesPage';
 import ErrorPage from './pages/ErrorPage';
 import { BoardApi } from './utils/BoardsApi';
-import { IssueApi } from './utils/IssuesApi';
+import { INewIssue, IssueApi } from './utils/IssuesApi';
+import { UserApi } from './utils/UsersApi';
+import { IUser } from './components/MainForm/MainForm';
 
 export interface IBoard {
   description: string;
@@ -36,11 +38,13 @@ export interface IAssignee {
 function App() {
   const [boards, setBoards] = useState<IBoard[]>([]);
   const [issues, setIssues] = useState<IIssue[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [boardIssues, setBoardIssues] = useState<IBoardIssue[]>([]);
 
   useEffect(() => {
     getBoards();
     getIssues();
+    getUsers();
   }, []);
 
   function getBoardById(id: string) {
@@ -67,6 +71,22 @@ function App() {
       .catch(err => console.log(err));
   }
 
+  function getUsers() {
+    UserApi.getUsers()
+      .then(items => setUsers(items.data))
+      .catch(err => console.log(err));
+  }
+
+  function createIssue(newIssue: INewIssue) {
+    IssueApi.createIssue(newIssue)
+      .then(items => {
+        if (issues) {
+          setIssues([...issues, items.data]);
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
   return (
     <Routes>
       <Route path="/boards" element={<BoardsPage boards={boards} />} />
@@ -74,6 +94,8 @@ function App() {
         path="/board/:id"
         element={
           <BoardPage
+            users={users}
+            createIssue={createIssue}
             boards={boards}
             changeIssueStatus={changeIssueStatus}
             getBoardById={getBoardById}
