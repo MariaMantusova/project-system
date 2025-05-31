@@ -5,7 +5,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import KanbanBlock from '../components/KanbanBlock/KanbanBLock';
 import { ColumnType } from '../components/KanbanBoard/KanbanBoard';
-import { IBoard, IIssue } from '../App';
+import { IBoard, IIssue } from '../components/App/App';
 import { INewIssue } from '../utils/IssuesApi';
 import { IUser } from '../components/MainForm/MainForm';
 

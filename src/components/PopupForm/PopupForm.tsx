@@ -1,18 +1,8 @@
 import React from 'react';
 import './PopupForm.css';
-import MainForm, { IUser } from '../MainForm/MainForm';
+import MainForm from '../MainForm/MainForm';
 import { Link } from 'react-router';
-import { INewIssue } from '../../utils/IssuesApi';
-import { IBoard } from '../../App';
-
-interface IPopupFormProps {
-  title: string;
-  users: IUser[];
-  isOpened: boolean;
-  boards: IBoard[];
-  createIssue: (newIssue: INewIssue) => void;
-  setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { IPopupFormProps } from '../../interfaces/propsInterfaces';
 
 function PopupForm(props: IPopupFormProps) {
   function handleClose() {

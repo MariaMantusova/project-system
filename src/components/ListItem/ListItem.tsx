@@ -1,11 +1,6 @@
 import React from 'react';
 import './ListItem.css';
-
-interface IListItemProps {
-  id: number;
-  title: string;
-  children?: React.ReactNode;
-}
+import { IListItemProps } from '../../interfaces/propsInterfaces';
 
 function ListItem(props: IListItemProps) {
   return (

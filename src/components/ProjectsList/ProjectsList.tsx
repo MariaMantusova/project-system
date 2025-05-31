@@ -1,12 +1,9 @@
 import React from 'react';
 import './ProjectsList.css';
 import ListItem from '../ListItem/ListItem';
-import { IBoard } from '../../App';
+import { IBoard } from '../App/App';
 import { Link } from 'react-router';
-
-interface IProjectsListProps {
-  boards: IBoard[];
-}
+import { IProjectsListProps } from '../../interfaces/propsInterfaces';
 
 function ProjectsList(props: IProjectsListProps) {
   return (

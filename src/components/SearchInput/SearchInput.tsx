@@ -1,12 +1,6 @@
 import React from 'react';
 import './SearchInput.css';
-
-interface ISearchInputProps {
-  query: string;
-  field: string;
-  setField: React.Dispatch<React.SetStateAction<string>>;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-}
+import { ISearchInputProps } from '../../interfaces/propsInterfaces';
 
 function SearchInput(props: ISearchInputProps) {
   return (

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import './App.css';
-import BoardPage, { IBoardIssue } from './pages/BoardPage';
-import BoardsPage from './pages/BoardsPage';
-import IssuesPage from './pages/IssuesPage';
-import ErrorPage from './pages/ErrorPage';
-import { BoardApi } from './utils/BoardsApi';
-import { INewIssue, IssueApi } from './utils/IssuesApi';
-import { UserApi } from './utils/UsersApi';
-import { IUser } from './components/MainForm/MainForm';
+import BoardPage, { IBoardIssue } from '../../pages/BoardPage';
+import BoardsPage from '../../pages/BoardsPage';
+import IssuesPage from '../../pages/IssuesPage';
+import ErrorPage from '../../pages/ErrorPage';
+import { BoardApi } from '../../utils/BoardsApi';
+import { INewIssue, IssueApi } from '../../utils/IssuesApi';
+import { UserApi } from '../../utils/UsersApi';
+import { IUser } from '../MainForm/MainForm';
 
 export interface IBoard {
   description: string;

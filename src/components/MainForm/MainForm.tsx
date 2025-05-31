@@ -1,26 +1,8 @@
 import React, { useState } from 'react';
 import './MainForm.css';
 import { Select } from 'antd';
-import { INewIssue } from '../../utils/IssuesApi';
-import { IBoard } from '../../App';
-
-export interface IUser {
-  avatarUrl: string;
-  description: string;
-  email: string;
-  fullName: string;
-  id: number;
-  tasksCount: number;
-  teamId: number;
-  teamName: string;
-}
-
-interface IMainFormProps {
-  createIssue: (newIssue: INewIssue) => void;
-  boards: IBoard[];
-  users: IUser[];
-  handleClose: () => void;
-}
+import { IMainFormProps } from '../../interfaces/propsInterfaces';
+import { priorityOptions, statusOptions } from '../../data/searchOptions';
 
 function MainForm(props: IMainFormProps) {
   const [title, setTitle] = useState<string>('');
@@ -38,18 +20,6 @@ function MainForm(props: IMainFormProps) {
     value: item.id,
     label: item.fullName,
   }));
-
-  const statusOptions: { value: string; label: string }[] = [
-    { value: 'Backlog', label: 'To do' },
-    { value: 'InProgress', label: 'In progress' },
-    { value: 'Done', label: 'Done' },
-  ];
-
-  const priorityOptions: { value: string; label: string }[] = [
-    { value: 'High', label: 'Высокий' },
-    { value: 'Low', label: 'Низкий' },
-    { value: 'Medium', label: 'Средний' },
-  ];
 
   function onTitleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setTitle(event.target.value);

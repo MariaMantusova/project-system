@@ -1,9 +1,6 @@
 import React from 'react';
 import './MainButton.css';
-
-interface IMainButtonProps {
-  handleOpenPopup: () => void;
-}
+import { IMainButtonProps } from '../../interfaces/propsInterfaces';
 
 function MainButton(props: IMainButtonProps) {
   return (

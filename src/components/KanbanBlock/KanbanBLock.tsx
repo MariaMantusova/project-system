@@ -1,13 +1,7 @@
 import React from 'react';
 import './KanbanBlock.css';
 import KanbanBoard from '../KanbanBoard/KanbanBoard';
-import { IBoardIssue } from '../../pages/BoardPage';
-
-interface IKanbanBlockProps {
-  boardIssues: IBoardIssue[];
-  boardTitle: string;
-  changeIssueStatus: (id: string, status: string) => void;
-}
+import { IKanbanBlockProps } from '../../interfaces/propsInterfaces';
 
 function KanbanBlock(props: IKanbanBlockProps) {
   return (

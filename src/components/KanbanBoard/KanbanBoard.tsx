@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './KanbanBoard.css';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { IBoardIssue } from '../../pages/BoardPage';
+import { IKanbanBoardProps } from '../../interfaces/propsInterfaces';
 
 export type ColumnType = 'Backlog' | 'InProgress' | 'Done';
 type IssuesState = Record<ColumnType, IBoardIssue[]>;
-
-interface IKanbanBoardProps {
-  issues: IBoardIssue[];
-  changeIssueStatus: (id: string, status: string) => void;
-}
 
 function KanbanBoard({ issues: externalIssues, changeIssueStatus }: IKanbanBoardProps) {
   const [issues, setIssues] = useState<IssuesState>({

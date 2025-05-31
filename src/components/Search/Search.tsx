@@ -1,32 +1,15 @@
 import React from 'react';
 import './Search.css';
 import { Select } from 'antd';
-import { IBoard } from '../../App';
 import SearchInput from '../SearchInput/SearchInput';
-
-interface ISearchProps {
-  boards: IBoard[];
-  query: string;
-  field: string;
-  setField: React.Dispatch<React.SetStateAction<string>>;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  setSelectStatus: React.Dispatch<React.SetStateAction<string>>;
-  selectStatus: string;
-  setSelectProject: React.Dispatch<React.SetStateAction<number>>;
-  selectProject: number;
-}
+import { ISearchProps } from '../../interfaces/propsInterfaces';
+import { statusOptions } from '../../data/searchOptions';
 
 function SearchSection(props: ISearchProps) {
   const projectOptions: { value: number; label: string }[] = props.boards.map(item => ({
     value: item.id,
     label: `${item.id}. ${item.name}`,
   }));
-
-  const statusOptions: { value: string; label: string }[] = [
-    { value: 'Backlog', label: 'To do' },
-    { value: 'InProgress', label: 'In progress' },
-    { value: 'Done', label: 'Done' },
-  ];
 
   function onChangeSelectStatus(value: string) {
     props.setSelectStatus(value);

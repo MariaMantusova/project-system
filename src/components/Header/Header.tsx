@@ -2,11 +2,7 @@ import React from 'react';
 import './Header.css';
 import { Link } from 'react-router';
 import MainButton from '../MainButton/MainButton';
-
-interface IHeaderProps {
-  pageName: string;
-  handleOpenPopup: () => void;
-}
+import { IHeaderProps } from '../../interfaces/propsInterfaces';
 
 function Header(props: IHeaderProps) {
   return (
