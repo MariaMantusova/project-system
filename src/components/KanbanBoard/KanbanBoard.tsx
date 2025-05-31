@@ -1,51 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './KanbanBoard.css';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import { IBoardIssue } from '../../pages/BoardPage';
 
-type ColumnType = 'todo' | 'inProgress' | 'done';
+export type ColumnType = 'Backlog' | 'InProgress' | 'Done';
+type IssuesState = Record<ColumnType, IBoardIssue[]>;
 
-type TasksState = Record<ColumnType, string[]>;
+interface IKanbanBoardProps {
+  issues: IBoardIssue[];
+}
 
-const initialTasks: TasksState = {
-  todo: ['Задача 1', 'Задача 3'],
-  inProgress: ['Задача 4'],
-  done: ['Задача 2'],
-};
+function KanbanBoard(props: IKanbanBoardProps) {
+  const [issues, setIssues] = useState<IssuesState>({ Backlog: [], InProgress: [], Done: [] });
 
-function KanbanBoard() {
-  const [tasks, setTasks] = useState<TasksState>(initialTasks);
+  useEffect(() => {
+    const curIssues: IssuesState = {
+      Backlog: [],
+      InProgress: [],
+      Done: [],
+    };
+
+    for (let i = 0; i < props.issues.length; i++) {
+      const issue = props.issues[i];
+      curIssues[issue.status as ColumnType].push(issue);
+    }
+
+    setIssues(curIssues);
+  }, [props.issues]);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
-    if (!destination) return;
+    if (!destination || !issues) return;
 
     if (source.droppableId === destination.droppableId && source.index === destination.index)
       return;
 
-    const sourceColumn = [...tasks[source.droppableId as ColumnType]];
-    const [movedTask] = sourceColumn.splice(source.index, 1);
+    const sourceColumn = source.droppableId as ColumnType;
+    const destinationColumn = destination.droppableId as ColumnType;
 
-    const destinationColumn = [...tasks[destination.droppableId as ColumnType]];
-    destinationColumn.splice(destination.index, 0, movedTask);
+    const sourceItems = Array.from(issues[sourceColumn]);
+    const destinationItems =
+      sourceColumn === destinationColumn ? sourceItems : Array.from(issues[destinationColumn]);
 
-    setTasks(prev => ({
-      ...prev,
-      [source.droppableId]: sourceColumn,
-      [destination.droppableId]: destinationColumn,
-    }));
+    const [movedIssue] = sourceItems.splice(source.index, 1);
+
+    if (sourceColumn !== destinationColumn) {
+      movedIssue.status = destinationColumn;
+    }
+
+    destinationItems.splice(destination.index, 0, movedIssue);
+
+    setIssues(prev => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        [sourceColumn]: sourceItems,
+        [destinationColumn]: destinationItems,
+      };
+    });
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="kanban-board">
-        {(Object.keys(tasks) as ColumnType[]).map(columnId => (
+        {(Object.keys(issues) as ColumnType[]).map(columnId => (
           <Droppable droppableId={columnId} key={columnId}>
             {provided => (
               <div className="kanban-column" ref={provided.innerRef} {...provided.droppableProps}>
                 <h2 className="kanban-column__title">{getTitle(columnId)}</h2>
-                {tasks[columnId].map((task, index) => (
-                  <Draggable key={task} draggableId={task} index={index}>
+                {issues[columnId].map((task, index) => (
+                  <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                     {provided => (
                       <div
                         className="kanban-task"
@@ -53,7 +79,7 @@ function KanbanBoard() {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        {task}
+                        {task.title}
                       </div>
                     )}
                   </Draggable>
@@ -70,11 +96,11 @@ function KanbanBoard() {
 
 const getTitle = (id: ColumnType): string => {
   switch (id) {
-    case 'todo':
+    case 'Backlog':
       return 'To do';
-    case 'inProgress':
+    case 'InProgress':
       return 'In progress';
-    case 'done':
+    case 'Done':
       return 'Done';
     default:
       return '';

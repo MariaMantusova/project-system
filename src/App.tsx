@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import './App.css';
-import BoardPage from './pages/BoardPage';
+import BoardPage, { IBoardIssue } from './pages/BoardPage';
 import BoardsPage from './pages/BoardsPage';
 import IssuesPage from './pages/IssuesPage';
 import ErrorPage from './pages/ErrorPage';
@@ -36,32 +36,40 @@ export interface IAssignee {
 function App() {
   const [boards, setBoards] = useState<IBoard[]>([]);
   const [issues, setIssues] = useState<IIssue[]>([]);
+  const [boardIssues, setBoardIssues] = useState<IBoardIssue[]>([]);
 
   useEffect(() => {
     getBoards();
     getIssues();
   }, []);
 
+  function getBoardById(id: string) {
+    BoardApi.getBoardById(id)
+      .then(items => setBoardIssues(items.data))
+      .catch(err => console.log(err));
+  }
+
   function getBoards() {
     BoardApi.getBoards()
-      .then(items => {
-        setBoards(items.data);
-      })
+      .then(items => setBoards(items.data))
       .catch(err => console.log(err));
   }
 
   function getIssues() {
     IssueApi.getIssues()
-      .then(items => {
-        setIssues(items.data);
-      })
+      .then(items => setIssues(items.data))
       .catch(err => console.log(err));
   }
 
   return (
     <Routes>
       <Route path="/boards" element={<BoardsPage boards={boards} />} />
-      <Route path="/board/:id" element={<BoardPage />} />
+      <Route
+        path="/board/:id"
+        element={
+          <BoardPage boards={boards} getBoardById={getBoardById} boardIssues={boardIssues} />
+        }
+      />
       <Route path="/issues" element={<IssuesPage issues={issues} boards={boards} />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>

@@ -27,6 +27,18 @@ class BoardsApi {
         return Promise.reject(error);
       });
   }
+
+  getBoardById(id: string | undefined) {
+    return axios
+      .get(`${this._url}/${id}`, {
+        headers: this._header,
+      })
+      .then(response => response.data)
+      .catch(error => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  }
 }
 
 const BoardsApiOptions: IApiOptions = {
