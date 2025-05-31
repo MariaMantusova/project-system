@@ -8,25 +8,31 @@ type IssuesState = Record<ColumnType, IBoardIssue[]>;
 
 interface IKanbanBoardProps {
   issues: IBoardIssue[];
+  changeIssueStatus: (id: string, status: string) => void;
 }
 
-function KanbanBoard(props: IKanbanBoardProps) {
-  const [issues, setIssues] = useState<IssuesState>({ Backlog: [], InProgress: [], Done: [] });
+function KanbanBoard({ issues: externalIssues, changeIssueStatus }: IKanbanBoardProps) {
+  const [issues, setIssues] = useState<IssuesState>({
+    Backlog: [],
+    InProgress: [],
+    Done: [],
+  });
 
   useEffect(() => {
-    const curIssues: IssuesState = {
+    if (!externalIssues || !Array.isArray(externalIssues)) return;
+
+    const organized: IssuesState = {
       Backlog: [],
       InProgress: [],
       Done: [],
     };
 
-    for (let i = 0; i < props.issues.length; i++) {
-      const issue = props.issues[i];
-      curIssues[issue.status as ColumnType].push(issue);
+    for (const issue of externalIssues) {
+      organized[issue.status].push(issue);
     }
 
-    setIssues(curIssues);
-  }, [props.issues]);
+    setIssues(organized);
+  }, [externalIssues]);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -47,6 +53,7 @@ function KanbanBoard(props: IKanbanBoardProps) {
 
     if (sourceColumn !== destinationColumn) {
       movedIssue.status = destinationColumn;
+      changeIssueStatus(movedIssue.id.toString(), destinationColumn)
     }
 
     destinationItems.splice(destination.index, 0, movedIssue);

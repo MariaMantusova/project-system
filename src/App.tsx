@@ -49,6 +49,12 @@ function App() {
       .catch(err => console.log(err));
   }
 
+  function changeIssueStatus(id: string, status: string) {
+    IssueApi.changeIssueStatus(id, status)
+      .then(items => setBoardIssues(items.data))
+      .catch(err => console.log(err));
+  }
+
   function getBoards() {
     BoardApi.getBoards()
       .then(items => setBoards(items.data))
@@ -67,7 +73,12 @@ function App() {
       <Route
         path="/board/:id"
         element={
-          <BoardPage boards={boards} getBoardById={getBoardById} boardIssues={boardIssues} />
+          <BoardPage
+            boards={boards}
+            changeIssueStatus={changeIssueStatus}
+            getBoardById={getBoardById}
+            boardIssues={boardIssues}
+          />
         }
       />
       <Route path="/issues" element={<IssuesPage issues={issues} boards={boards} />} />

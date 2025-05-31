@@ -25,6 +25,7 @@ interface IBoardPageProps {
   boardIssues: IBoardIssue[];
   boards: IBoard[];
   getBoardById: (id: string) => void;
+  changeIssueStatus: (id: string, status: string) => void;
 }
 
 function BoardPage(props: IBoardPageProps) {
@@ -47,7 +48,11 @@ function BoardPage(props: IBoardPageProps) {
   return (
     <>
       <Header pageName="board" />
-      <KanbanBlock boardIssues={boardIssues} boardTitle={title} />
+      <KanbanBlock
+        changeIssueStatus={props.changeIssueStatus}
+        boardIssues={boardIssues}
+        boardTitle={title}
+      />
       <PopupForm />
       <Footer />
     </>

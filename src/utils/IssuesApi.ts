@@ -27,6 +27,16 @@ class IssuesApi {
         return Promise.reject(error);
       });
   }
+
+  changeIssueStatus(id: string | undefined, status: string) {
+    return axios
+      .put(`${this._url}/updateStatus/${id}`, { status }, { headers: this._header })
+      .then(response => response.data)
+      .catch(error => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  }
 }
 
 const BoardsApiOptions: IApiOptions = {
