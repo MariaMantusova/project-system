@@ -1,8 +1,6 @@
 import React from 'react';
 import { IBoard, IIssue } from '../components/App/App';
-import { IUser } from './mainInterfaces';
-import { INewIssue } from '../utils/IssuesApi';
-import { IBoardIssue } from './mainInterfaces';
+import { IUser, INewIssue, IBoardIssue } from './mainInterfaces';
 
 export interface ISearchInputProps {
   query: string;
