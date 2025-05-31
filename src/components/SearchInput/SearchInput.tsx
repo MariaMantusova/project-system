@@ -9,10 +9,6 @@ interface ISearchInputProps {
 }
 
 function SearchInput(props: ISearchInputProps) {
-  const handleSearch = () => {
-    console.log('Поиск:', props.query, 'по полю:', props.field);
-  };
-
   return (
     <section className="search-container">
       <select
@@ -31,9 +27,6 @@ function SearchInput(props: ISearchInputProps) {
         value={props.query}
         onChange={e => props.setQuery(e.target.value)}
       />
-      <button className="search-button" onClick={handleSearch}>
-        🔍
-      </button>
     </section>
   );
 }
