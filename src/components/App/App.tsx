@@ -8,7 +8,7 @@ import ErrorPage from '../../pages/ErrorPage';
 import { BoardApi } from '../../utils/BoardsApi';
 import { INewIssue, IssueApi } from '../../utils/IssuesApi';
 import { UserApi } from '../../utils/UsersApi';
-import { IUser } from '../MainForm/MainForm';
+import { IUser } from '../../interfaces/mainInterfaces';
 
 export interface IBoard {
   description: string;

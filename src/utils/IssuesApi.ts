@@ -1,19 +1,5 @@
 import axios from 'axios';
-
-export interface INewIssue {
-  assigneeId: number | undefined;
-  boardId: number | undefined;
-  description: string;
-  priority: string | undefined;
-  title: string;
-}
-
-export interface IApiOptions {
-  url: string;
-  headers: {
-    'Content-Type': string;
-  };
-}
+import { IApiOptions, INewIssue } from '../interfaces/mainInterfaces';
 
 class IssuesApi {
   private _url: string;

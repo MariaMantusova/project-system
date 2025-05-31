@@ -2,7 +2,7 @@ import React from 'react';
 import { IBoard, IIssue } from '../components/App/App';
 import { IUser } from './mainInterfaces';
 import { INewIssue } from '../utils/IssuesApi';
-import { IBoardIssue } from '../pages/BoardPage';
+import { IBoardIssue } from './mainInterfaces';
 
 export interface ISearchInputProps {
   query: string;
@@ -71,4 +71,22 @@ export interface IIssuesBlockProps {
 export interface IHeaderProps {
   pageName: string;
   handleOpenPopup: () => void;
+}
+
+export interface IIssuesPageProps {
+  issues: IIssue[];
+  boards: IBoard[];
+}
+
+export interface IBoardsPageProps {
+  boards: IBoard[];
+}
+
+export interface IBoardPageProps {
+  boardIssues: IBoardIssue[];
+  createIssue: (newIssue: INewIssue) => void;
+  boards: IBoard[];
+  users: IUser[];
+  getBoardById: (id: string) => void;
+  changeIssueStatus: (id: string, status: string) => void;
 }

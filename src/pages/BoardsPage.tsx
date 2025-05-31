@@ -2,11 +2,7 @@ import React from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import ProjectsList from '../components/ProjectsList/ProjectsList';
-import { IBoard } from '../components/App/App';
-
-interface IBoardsPageProps {
-  boards: IBoard[];
-}
+import { IBoardsPageProps } from '../interfaces/propsInterfaces';
 
 function BoardsPage(props: IBoardsPageProps) {
   return (

@@ -1,11 +1,5 @@
 import axios from 'axios';
-
-interface IApiOptions {
-  url: string;
-  headers: {
-    'Content-Type': string;
-  };
-}
+import { IApiOptions } from './IssuesApi';
 
 class BoardsApi {
   private _url: string;

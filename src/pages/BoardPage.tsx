@@ -4,33 +4,8 @@ import PopupForm from '../components/PopupForm/PopupForm';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import KanbanBlock from '../components/KanbanBlock/KanbanBLock';
-import { ColumnType } from '../components/KanbanBoard/KanbanBoard';
-import { IBoard, IIssue } from '../components/App/App';
-import { INewIssue } from '../utils/IssuesApi';
-import { IUser } from '../components/MainForm/MainForm';
-
-export interface IBoardIssue {
-  id: number;
-  title: string;
-  description: string;
-  priority: string;
-  status: ColumnType;
-  assignee: {
-    id: number;
-    fullName: string;
-    email: string;
-    avatarUrl: string;
-  };
-}
-
-interface IBoardPageProps {
-  boardIssues: IBoardIssue[];
-  createIssue: (newIssue: INewIssue) => void;
-  boards: IBoard[];
-  users: IUser[];
-  getBoardById: (id: string) => void;
-  changeIssueStatus: (id: string, status: string) => void;
-}
+import { IBoardPageProps } from '../interfaces/propsInterfaces';
+import { IBoardIssue } from '../interfaces/mainInterfaces';
 
 function BoardPage(props: IBoardPageProps) {
   const { id } = useParams<string>();
