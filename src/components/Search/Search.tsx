@@ -10,6 +10,10 @@ interface ISearchProps {
   field: string;
   setField: React.Dispatch<React.SetStateAction<string>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  setSelectStatus: React.Dispatch<React.SetStateAction<string>>;
+  selectStatus: string;
+  setSelectProject: React.Dispatch<React.SetStateAction<number>>;
+  selectProject: number;
 }
 
 function SearchSection(props: ISearchProps) {
@@ -24,6 +28,14 @@ function SearchSection(props: ISearchProps) {
     { value: 'Done', label: 'Done' },
   ];
 
+  function onChangeSelectStatus(value: string) {
+    props.setSelectStatus(value);
+  }
+
+  function onChangeSelectProject(value: number) {
+    props.setSelectProject(value);
+  }
+
   return (
     <section className="search">
       <SearchInput
@@ -32,8 +44,16 @@ function SearchSection(props: ISearchProps) {
         query={props.query}
         setQuery={props.setQuery}
       />
-      <Select placeholder="Выбрать статус" options={statusOptions} />
-      <Select placeholder="Выбрать доску" options={projectOptions} />
+      <Select
+        onChange={onChangeSelectStatus}
+        placeholder="Выбрать статус"
+        options={statusOptions}
+      />
+      <Select
+        placeholder="Выбрать доску"
+        options={projectOptions}
+        onChange={onChangeSelectProject}
+      />
     </section>
   );
 }

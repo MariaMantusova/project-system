@@ -14,27 +14,39 @@ function IssuesPage(props: IIssuesPageProps) {
   const [filteredIssues, setFilteredIssues] = React.useState<IIssue[]>([]);
   const [searchQuery, setSearchQuery] = React.useState<string>('');
   const [searchField, setSearchField] = React.useState<string>('name');
+  const [selectStatus, setSelectStatus] = React.useState<string>('');
+  const [selectProject, setSelectProject] = React.useState<number>(0);
   const [isSearching, setIsSearching] = React.useState(false);
 
   useEffect(() => {
-    filterIssues();
-  }, [searchField, searchQuery]);
+    applyFilters();
+  }, [searchQuery, searchField, selectStatus, selectProject]);
 
-  function filterIssues() {
-    const searchQueryLow = searchQuery.toLowerCase();
-    let filtered: IIssue[] = [];
+  function applyFilters() {
+    const searchQueryLow = searchQuery.toLowerCase().trim();
 
-    if (searchField === 'name')
-      filtered = props.issues.filter(issue => issue.title.toLowerCase().includes(searchQueryLow));
-    if (searchField === 'assignee')
-      filtered = props.issues.filter(
-        issue =>
-          issue.assignee.fullName.toLowerCase().includes(searchQueryLow) ||
-          issue.assignee.email.toLowerCase().includes(searchQueryLow)
-      );
+    const filtered = props.issues.filter(issue => {
+      let matchesSearch = true;
+      if (searchQueryLow) {
+        if (searchField === 'name') {
+          matchesSearch = issue.title.toLowerCase().includes(searchQueryLow);
+        } else if (searchField === 'assignee') {
+          matchesSearch =
+            issue.assignee.fullName.toLowerCase().includes(searchQueryLow) ||
+            issue.assignee.email.toLowerCase().includes(searchQueryLow);
+        }
+      }
+
+      const matchesStatus = selectStatus ? issue.status === selectStatus : true;
+      const matchesProject = selectProject ? issue.boardId === selectProject : true;
+
+      return matchesSearch && matchesStatus && matchesProject;
+    });
 
     setFilteredIssues(filtered);
-    setIsSearching(searchQuery.trim() !== '');
+
+    const isAnyFilterActive = searchQueryLow || selectStatus || selectProject;
+    setIsSearching(!!isAnyFilterActive);
   }
 
   return (
@@ -46,6 +58,10 @@ function IssuesPage(props: IIssuesPageProps) {
         setQuery={setSearchQuery}
         setField={setSearchField}
         field={searchField}
+        setSelectStatus={setSelectStatus}
+        selectStatus={selectStatus}
+        setSelectProject={setSelectProject}
+        selectProject={selectProject}
       />
       <IssuesBlock issues={isSearching ? filteredIssues : props.issues} />
       <Footer />
