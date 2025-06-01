@@ -37,7 +37,7 @@ function KanbanBoard({
     setIssues(organized);
   }, [externalIssues]);
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination || !issues) return;
@@ -48,28 +48,44 @@ function KanbanBoard({
     const sourceColumn = source.droppableId as ColumnType;
     const destinationColumn = destination.droppableId as ColumnType;
 
-    const sourceItems = Array.from(issues[sourceColumn]);
+    const prevIssues: IssuesState = {
+      Backlog: [...issues.Backlog],
+      InProgress: [...issues.InProgress],
+      Done: [...issues.Done],
+    }
+
+    const sourceItems = [...issues[sourceColumn]];
     const destinationItems =
-      sourceColumn === destinationColumn ? sourceItems : Array.from(issues[destinationColumn]);
+      sourceColumn === destinationColumn
+        ? [...sourceItems]
+        : [...issues[destinationColumn]];
 
     const [movedIssue] = sourceItems.splice(source.index, 1);
 
     if (sourceColumn !== destinationColumn) {
-      movedIssue.status = destinationColumn;
-      changeIssueStatus(movedIssue.id.toString(), destinationColumn);
+      try {
+        await changeIssueStatus(movedIssue.id.toString(), destinationColumn);
+
+        destinationItems.splice(destination.index, 0, movedIssue);
+
+        setIssues({
+          ...issues,
+          [sourceColumn]: sourceItems,
+          [destinationColumn]: destinationItems,
+        });
+      } catch (error) {
+        console.error('Ошибка обновления статуса задачи:', error);
+        setIssues(prevIssues);
+        alert('Не удалось обновить задачу. Она возвращена обратно.');
+      }
+    } else {
+      destinationItems.splice(destination.index, 0, movedIssue);
+
+      setIssues({
+        ...issues,
+        [sourceColumn]: destinationItems,
+      });
     }
-
-    destinationItems.splice(destination.index, 0, movedIssue);
-
-    setIssues(prev => {
-      if (!prev) return prev;
-
-      return {
-        ...prev,
-        [sourceColumn]: sourceItems,
-        [destinationColumn]: destinationItems,
-      };
-    });
   };
 
   function onClick() {

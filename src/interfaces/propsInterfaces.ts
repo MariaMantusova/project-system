@@ -65,7 +65,7 @@ export interface IKanbanBoardProps {
   handleOpenPopup: () => void;
   className: string;
   getIssueById: (id: string) => void;
-  changeIssueStatus: (id: string, status: string) => void;
+  changeIssueStatus: (id: string, status: string) => Promise<void>;
 }
 
 export interface IKanbanBlockProps {
@@ -73,7 +73,7 @@ export interface IKanbanBlockProps {
   boardTitle: string;
   getIssueById: (id: string) => void;
   handleOpenPopup: () => void;
-  changeIssueStatus: (id: string, status: string) => void;
+  changeIssueStatus: (id: string, status: string) => Promise<void>;
 }
 
 export interface IIssuesBlockProps {
@@ -121,7 +121,7 @@ export interface IBoardPageProps {
   users: IUser[];
   changeIssue: (id: string, updateIssue: IUpdateIssue) => void;
   getBoardById: (id: string) => void;
-  changeIssueStatus: (id: string, status: string) => void;
+  changeIssueStatus: (id: string, status: string) => Promise<void>;
   handleOpenPopup: () => void;
   setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isPopupOpen: boolean;

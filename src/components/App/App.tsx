@@ -59,11 +59,15 @@ function App() {
       .catch(err => console.log(err));
   }
 
-  function changeIssueStatus(id: string, status: string) {
-    IssueApi.changeIssueStatus(id, status)
-      .then(items => setBoardIssues(items.data))
-      .catch(err => console.log(err));
-  }
+  const changeIssueStatus = async (id: string, status: string): Promise<void> => {
+    try {
+      const data = await IssueApi.changeIssueStatus(id, status);
+      setBoardIssues(data);
+    } catch (error) {
+      console.error('Ошибка при обновлении задачи:', error);
+      throw error;
+    }
+  };
 
   function getBoards() {
     BoardApi.getBoards()
