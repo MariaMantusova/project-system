@@ -30,6 +30,7 @@ export interface IPopupFormProps {
   users: IUser[];
   isOpened: boolean;
   boards: IBoard[];
+  children?: React.ReactNode;
   createIssue?: (newIssue: INewIssue) => void;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;

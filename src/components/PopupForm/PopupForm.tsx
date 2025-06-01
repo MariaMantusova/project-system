@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './PopupForm.css';
 import MainForm from '../MainForm/MainForm';
 import { Link } from 'react-router';
 import { IPopupFormProps } from '../../interfaces/propsInterfaces';
 
 function PopupForm(props: IPopupFormProps) {
+  const [boardId, setBoardId] = useState<number | null>();
   function handleClose() {
     props.setIsOpened(false);
     if (props.setCurrentIssue) props.setCurrentIssue(null);
   }
+
+  useEffect(() => {
+    if (props.currentIssue) {
+      props.boards.forEach((item) => {
+        if (item.name === props.currentIssue?.boardName) setBoardId(item.id);
+      })
+    }
+  }, [props.currentIssue]);
 
   return (
     <div className={`popup-background ${props.isOpened && 'popup-background_visible'}`}>
@@ -27,9 +36,11 @@ function PopupForm(props: IPopupFormProps) {
           createIssue={props.createIssue}
           changeIssue={props.changeIssue}
         />
-        <Link className="popup__link" to="/board/9">
-          Перейти на доску
-        </Link>
+        {props.currentIssue && (
+          <Link className="popup__link" to={`/board/${boardId}`} onClick={handleClose}>
+            Перейти на доску
+          </Link>
+        )}
       </section>
     </div>
   );

@@ -105,6 +105,7 @@ function MainForm(props: IMainFormProps) {
         showSearch
         onChange={setStatus}
         value={status}
+        disabled={!props.currentIssue}
         placeholder="Статус"
         options={statusOptions}
       />
