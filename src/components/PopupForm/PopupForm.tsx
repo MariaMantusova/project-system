@@ -13,9 +13,9 @@ function PopupForm(props: IPopupFormProps) {
 
   useEffect(() => {
     if (props.currentIssue) {
-      props.boards.forEach((item) => {
+      props.boards.forEach(item => {
         if (item.name === props.currentIssue?.boardName) setBoardId(item.id);
-      })
+      });
     }
   }, [props.currentIssue]);
 

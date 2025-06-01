@@ -14,6 +14,13 @@ function MainForm(props: IMainFormProps) {
   const [priority, setPriority] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
 
+  const isFormValid =
+    title.inputValid &&
+    description.inputValid &&
+    projectId !== null &&
+    assigneeId !== null &&
+    priority !== null;
+
   const projectOptions = props.boards.map(item => ({
     value: item.id,
     label: `${item.id}. ${item.name}`,
@@ -83,14 +90,20 @@ function MainForm(props: IMainFormProps) {
         placeholder="Название задачи"
         name="name"
         type="text"
+        onBlur={title.onBlur}
       />
+      {title.isDirty && title.isEmpty && <p className="form__input_error">Поле обязательно</p>}
       <textarea
+        onBlur={description.onBlur}
         className="form__input"
         onChange={description.onChange}
         value={description.value}
         placeholder="Описание задачи"
         name="description"
       />
+      {description.isDirty && description.isEmpty && (
+        <p className="form__input_error">Поле обязательно</p>
+      )}
       <Select
         className="form__select"
         showSearch
@@ -125,7 +138,12 @@ function MainForm(props: IMainFormProps) {
         placeholder="Исполнитель"
         options={assigneeOptions}
       />
-      <button className="form__button">{props.currentIssue ? 'Сохранить' : 'Создать'}</button>
+      <button
+        className={`form__button ${!isFormValid && 'form__button_disabled'}`}
+        disabled={!isFormValid}
+      >
+        {props.currentIssue ? 'Сохранить' : 'Создать'}
+      </button>
     </form>
   );
 }

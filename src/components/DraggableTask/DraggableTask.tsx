@@ -16,7 +16,6 @@ function DraggableTask({
   className?: string;
   getIssueById: (id: string) => void;
 }) {
-
   function handleClick() {
     getIssueById(task.id.toString());
     onClick();
