@@ -60,7 +60,10 @@ function IssuesPage(props: IIssuesPageProps) {
         setSelectProject={setSelectProject}
         selectProject={selectProject}
       />
-      <IssuesBlock issues={isSearching ? filteredIssues : props.issues} />
+      <IssuesBlock
+        issues={isSearching ? filteredIssues : props.issues}
+        handleOpenPopup={props.handleOpenPopup}
+      />
       <Footer />
       <PopupForm
         title="Создать задачу"

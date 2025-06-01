@@ -17,7 +17,7 @@ function IssuesBlock(props: IIssuesBlockProps) {
           <ListItem id={issue.id} title={issue.title} key={issue.id} />
         )}
       />
-      {/*<MainButton handleOpenPopup={} />*/}
+      <MainButton handleOpenPopup={props.handleOpenPopup} />
     </section>
   );
 }

@@ -64,6 +64,7 @@ export interface IKanbanBlockProps {
 
 export interface IIssuesBlockProps {
   issues: IIssue[];
+  handleOpenPopup: () => void;
 }
 
 export interface IHeaderProps {
