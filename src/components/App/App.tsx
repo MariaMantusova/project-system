@@ -56,7 +56,7 @@ function App() {
   function getBoardById(id: string) {
     BoardApi.getBoardById(id)
       .then(items => setBoardIssues(items.data))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   const changeIssueStatus = async (id: string, status: string): Promise<void> => {
@@ -72,19 +72,19 @@ function App() {
   function getBoards() {
     BoardApi.getBoards()
       .then(items => setBoards(items.data))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   function getIssues() {
     IssueApi.getIssues()
       .then(items => setIssues(items.data))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   function getUsers() {
     UserApi.getUsers()
       .then(items => setUsers(items.data))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   function createIssue(newIssue: INewIssue) {
@@ -98,13 +98,13 @@ function App() {
           setIssues([...issues, fullIssue.data]);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   function getIssueById(id: string) {
     IssueApi.getIssueById(id)
       .then(issue => setCurrentIssue(issue.data))
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   function updateIssue(id: string, updateIssue: IUpdateIssue) {
@@ -117,7 +117,7 @@ function App() {
           setIssues([...issues, fullIssue.data]);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   function handleOpenPopup() {
