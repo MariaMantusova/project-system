@@ -52,13 +52,11 @@ function KanbanBoard({
       Backlog: [...issues.Backlog],
       InProgress: [...issues.InProgress],
       Done: [...issues.Done],
-    }
+    };
 
     const sourceItems = [...issues[sourceColumn]];
     const destinationItems =
-      sourceColumn === destinationColumn
-        ? [...sourceItems]
-        : [...issues[destinationColumn]];
+      sourceColumn === destinationColumn ? [...sourceItems] : [...issues[destinationColumn]];
 
     const [movedIssue] = sourceItems.splice(source.index, 1);
 

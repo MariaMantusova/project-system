@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Search from '../components/Search/Search';
-import { IIssue } from '../components/App/App';
 import IssuesBlock from '../components/IssuesBlock/IssuesBlock';
 import { IIssuesPageProps } from '../interfaces/propsInterfaces';
 import PopupForm from '../components/PopupForm/PopupForm';
+import { IIssue } from '../interfaces/mainInterfaces';
 
 function IssuesPage(props: IIssuesPageProps) {
   const [filteredIssues, setFilteredIssues] = React.useState<IIssue[]>([]);

@@ -51,3 +51,28 @@ export interface IApiOptions {
     'Content-Type': string;
   };
 }
+
+export interface IBoard {
+  description: string;
+  id: number;
+  name: string;
+  taskCount: number;
+}
+
+export interface IIssue {
+  assignee: IAssignee;
+  boardId: number;
+  boardName: string;
+  description: string;
+  id: number;
+  priority: string;
+  status: string;
+  title: string;
+}
+
+export interface IAssignee {
+  avatarUrl: string;
+  email: string;
+  fullName: string;
+  id: number;
+}

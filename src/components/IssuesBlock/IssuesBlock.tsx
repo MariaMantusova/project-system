@@ -2,9 +2,9 @@ import React from 'react';
 import './IssuesBlock.css';
 import MainButton from '../MainButton/MainButton';
 import ListItem from '../ListItem/ListItem';
-import { IIssue } from '../App/App';
 import { List } from 'antd';
 import { IIssuesBlockProps } from '../../interfaces/propsInterfaces';
+import { IIssue } from '../../interfaces/mainInterfaces';
 
 function IssuesBlock(props: IIssuesBlockProps) {
   return (

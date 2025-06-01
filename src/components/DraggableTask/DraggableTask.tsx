@@ -1,21 +1,14 @@
 import React from 'react';
 import './DraggableTask.css';
-import { DraggableProvided } from '@hello-pangea/dnd';
-import { IBoardIssue } from '../../interfaces/mainInterfaces';
+import { IDraggableTaskProps } from '../../interfaces/propsInterfaces';
 
-function DraggableTask({
+export default function DraggableTask({
   task,
   provided,
   onClick,
   className,
   getIssueById,
-}: {
-  task: IBoardIssue;
-  provided: DraggableProvided;
-  onClick: () => void;
-  className?: string;
-  getIssueById: (id: string) => void;
-}) {
+}: IDraggableTaskProps) {
   function handleClick() {
     getIssueById(task.id.toString());
     onClick();
@@ -33,5 +26,3 @@ function DraggableTask({
     </div>
   );
 }
-
-export default DraggableTask;

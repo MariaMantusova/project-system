@@ -35,7 +35,12 @@ class IssuesApi {
   createIssue(newIssue: INewIssue) {
     return axios
       .post(`${this._url}/create`, { ...newIssue }, { headers: this._header })
-      .then(response => response.data)
+      .then(response => {
+        if (!response || !response.data) {
+          throw new Error('Некорректный ответ от сервера');
+        }
+        return response.data;
+      })
       .catch(error => {
         console.log(error);
         return Promise.reject(error);
@@ -55,7 +60,12 @@ class IssuesApi {
   updateIssue(id: string | undefined, updateIssue: IUpdateIssue) {
     return axios
       .put(`${this._url}/update/${id}`, { ...updateIssue }, { headers: this._header })
-      .then(response => response.data)
+      .then(response => {
+        if (!response || !response.data) {
+          throw new Error('Некорректный ответ от сервера');
+        }
+        return response.data;
+      })
       .catch(error => {
         console.log(error);
         return Promise.reject(error);

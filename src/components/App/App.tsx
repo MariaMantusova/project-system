@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router';
-import './App.css';
 import BoardPage from '../../pages/BoardPage';
 import BoardsPage from '../../pages/BoardsPage';
 import IssuesPage from '../../pages/IssuesPage';
@@ -8,32 +7,14 @@ import ErrorPage from '../../pages/ErrorPage';
 import { BoardApi } from '../../utils/BoardsApi';
 import { IssueApi } from '../../utils/IssuesApi';
 import { UserApi } from '../../utils/UsersApi';
-import { IBoardIssue, INewIssue, IUpdateIssue, IUser } from '../../interfaces/mainInterfaces';
-
-export interface IBoard {
-  description: string;
-  id: number;
-  name: string;
-  taskCount: number;
-}
-
-export interface IIssue {
-  assignee: IAssignee;
-  boardId: number;
-  boardName: string;
-  description: string;
-  id: number;
-  priority: string;
-  status: string;
-  title: string;
-}
-
-export interface IAssignee {
-  avatarUrl: string;
-  email: string;
-  fullName: string;
-  id: number;
-}
+import {
+  IBoard,
+  IBoardIssue,
+  IIssue,
+  INewIssue,
+  IUpdateIssue,
+  IUser,
+} from '../../interfaces/mainInterfaces';
 
 function App() {
   const [boards, setBoards] = useState<IBoard[]>([]);
@@ -110,7 +91,7 @@ function App() {
   function updateIssue(id: string, updateIssue: IUpdateIssue) {
     IssueApi.updateIssue(id, updateIssue)
       .then(res => {
-        if (res.message) return IssueApi.getIssueById(id);
+        return IssueApi.getIssueById(id);
       })
       .then(fullIssue => {
         if (issues) {

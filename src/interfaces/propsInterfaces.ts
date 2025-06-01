@@ -1,12 +1,20 @@
 import React from 'react';
-import { IBoard, IIssue } from '../components/App/App';
-import { IUser, INewIssue, IBoardIssue, IUpdateIssue } from './mainInterfaces';
+import { IUser, INewIssue, IBoardIssue, IUpdateIssue, IIssue, IBoard } from './mainInterfaces';
+import { DraggableProvided } from '@hello-pangea/dnd';
 
 export interface ISearchInputProps {
   query: string;
   field: string;
   setField: React.Dispatch<React.SetStateAction<string>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface IDraggableTaskProps {
+  task: IBoardIssue;
+  provided: DraggableProvided;
+  onClick: () => void;
+  className: string;
+  getIssueById: (id: string) => void;
 }
 
 export interface ISearchProps {
@@ -30,8 +38,7 @@ export interface IPopupFormProps {
   users: IUser[];
   isOpened: boolean;
   boards: IBoard[];
-  children?: React.ReactNode;
-  createIssue?: (newIssue: INewIssue) => void;
+  createIssue: (newIssue: INewIssue) => void;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;
   currentIssue?: IIssue | null;
@@ -39,7 +46,7 @@ export interface IPopupFormProps {
 }
 
 export interface IMainFormProps {
-  createIssue?: (newIssue: INewIssue) => void;
+  createIssue: (newIssue: INewIssue) => void;
   changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;
   currentIssue?: IIssue | null;
   boards: IBoard[];
