@@ -1,0 +1,19 @@
+.kanban-task {
+  border: 2px solid var(--main-green-color);
+  border-radius: 12px;
+  padding: 10px;
+  background-color: white;
+  margin: 15px 10px;
+  transition: transform 0.3s ease;
+}
+
+.kanban-task_button:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .kanban-task {
+    font-size: 16px;
+  }
+}

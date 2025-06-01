@@ -1,12 +1,20 @@
 import React from 'react';
 import './ListItem.css';
+import { IListItemProps } from '../../interfaces/propsInterfaces';
 
-function ListItem(props: { children?: React.ReactNode }) {
+function ListItem(props: IListItemProps) {
+  function onClick() {
+    if (props.getIssueById) props.getIssueById(props.id.toString());
+    if (props.handleOpenPopup) props.handleOpenPopup();
+  }
+
   return (
-    <li className="list__item">
-      <p className="list__item__title">Название задачи</p>
-      {props.children}
-    </li>
+    <>
+      <li className={`list__item ${props.class}`} onClick={onClick}>
+        <p className="list__item__title">{`${props.id}. ${props.title}`}</p>
+        {props.children}
+      </li>
+    </>
   );
 }
 

@@ -1,55 +1,149 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './MainForm.css';
 import { Select } from 'antd';
+import { IMainFormProps } from '../../interfaces/propsInterfaces';
+import { priorityOptions, statusOptions } from '../../data/searchOptions';
+import { useInput } from '../../hooks/ValidationHook/ValidationHook';
 
-function MainForm() {
-  const projectOptions: { value: string; label: string }[] = [
-    { value: 'JS project', label: 'JS project' },
-    { value: 'Mariia', label: 'Mariia' },
-    { value: 'Sevak', label: 'Sevak' },
-  ];
+function MainForm(props: IMainFormProps) {
+  const title = useInput('', { isEmpty: true });
+  const description = useInput('', { isEmpty: true });
 
-  const statusOptions: { value: string; label: string }[] = [
-    { value: 'todo', label: 'To do' },
-    { value: 'progress', label: 'In progress' },
-    { value: 'done', label: 'Done' },
-  ];
+  const [projectId, setProjectId] = useState<number | null>(null);
+  const [assigneeId, setAssigneeId] = useState<number | null>(null);
+  const [priority, setPriority] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
 
-  const priorityOptions: { value: string; label: string }[] = [
-    { value: 'high', label: 'Высокий' },
-    { value: 'low', label: 'Низкий' },
-    { value: 'no', label: 'Нет приоритета' },
-    { value: 'medium', label: 'Средний' },
-  ];
+  const isFormValid =
+    title.inputValid &&
+    description.inputValid &&
+    projectId !== null &&
+    assigneeId !== null &&
+    priority !== null;
 
-  const assigneeOptions: { value: string; label: string }[] = [
-    { value: 'front', label: 'Frontend команда' },
-    { value: 'back', label: 'Backend команда' },
-    { value: 'devops', label: 'Devops команда' },
-    { value: 'manager', label: 'Project manager' },
-    { value: 'android', label: 'Android команда' },
-    { value: 'ios', label: 'Ios команда' },
-  ];
+  const projectOptions = props.boards.map(item => ({
+    value: item.id,
+    label: `${item.id}. ${item.name}`,
+  }));
+
+  const assigneeOptions = props.users.map(item => ({
+    value: item.id,
+    label: item.fullName,
+  }));
+
+  useEffect(() => {
+    if (props.currentIssue) {
+      title.setValue(props.currentIssue.title ?? '');
+      description.setValue(props.currentIssue.description ?? '');
+      setAssigneeId(props.currentIssue.assignee?.id ?? null);
+      setPriority(props.currentIssue.priority ?? null);
+      setStatus(props.currentIssue.status ?? 'To do');
+
+      props.boards.forEach(item => {
+        if (item.name === props.currentIssue?.boardName) setProjectId(item.id);
+      });
+    } else {
+      title.setValue('');
+      description.setValue('');
+      setAssigneeId(null);
+      setPriority(null);
+      setStatus(null);
+      setProjectId(null);
+    }
+  }, [props.currentIssue]);
+
+  function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault();
+
+    const payload = {
+      assigneeId: assigneeId ?? undefined,
+      boardId: projectId ?? undefined,
+      description: description.value,
+      priority: priority ?? undefined,
+      title: title.value,
+    };
+
+    if (!props.currentIssue && props.createIssue) {
+      props.createIssue(payload);
+      title.setValue('');
+      description.setValue('');
+      setAssigneeId(null);
+      setProjectId(null);
+      setPriority(null);
+      setStatus('To do');
+    } else if (props.changeIssue && props.currentIssue) {
+      props.changeIssue(props.currentIssue.id.toString(), {
+        ...payload,
+        status,
+      });
+    }
+
+    props.handleClose();
+  }
 
   return (
-    <form className="form">
-      <input className="form__input" placeholder="Название задачи" name="name" type="text" />
-      <textarea className="form__input" placeholder="Описание задачи" name="description" />
-      <Select className="form__select" showSearch placeholder="Проект" options={projectOptions} />
-      <Select className="form__select" showSearch placeholder="Статус" options={statusOptions} />
+    <form className="form" onSubmit={handleSubmit}>
+      <input
+        className="form__input"
+        onChange={title.onChange}
+        value={title.value}
+        placeholder="Название задачи"
+        name="name"
+        type="text"
+        onBlur={title.onBlur}
+      />
+      {title.isDirty && title.isEmpty && <p className="form__input_error">Поле обязательно</p>}
+      <textarea
+        onBlur={description.onBlur}
+        className="form__input"
+        onChange={description.onChange}
+        value={description.value}
+        placeholder="Описание задачи"
+        name="description"
+      />
+      {description.isDirty && description.isEmpty && (
+        <p className="form__input_error">Поле обязательно</p>
+      )}
       <Select
         className="form__select"
         showSearch
+        disabled={!!props.currentIssue}
+        onChange={setProjectId}
+        value={projectId}
+        placeholder="Проект"
+        options={projectOptions}
+      />
+      <Select
+        className="form__select"
+        showSearch
+        onChange={setStatus}
+        value={status}
+        disabled={!props.currentIssue}
+        placeholder="Статус"
+        options={statusOptions}
+      />
+      <Select
+        className="form__select"
+        showSearch
+        onChange={setPriority}
+        value={priority}
         placeholder="Приоритет"
         options={priorityOptions}
       />
       <Select
         className="form__select"
         showSearch
+        onChange={setAssigneeId}
+        value={assigneeId}
         placeholder="Исполнитель"
         options={assigneeOptions}
       />
-      <button className="form__button">Создать</button>
+      <button
+        className={`form__button ${!isFormValid && 'form__button_disabled'}`}
+        disabled={!isFormValid}
+      >
+        {props.currentIssue ? 'Сохранить' : 'Создать'}
+      </button>
     </form>
   );
 }

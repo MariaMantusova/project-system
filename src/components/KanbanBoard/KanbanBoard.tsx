@@ -1,60 +1,113 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './KanbanBoard.css';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import { IBoardIssue } from '../../interfaces/mainInterfaces';
+import { IKanbanBoardProps } from '../../interfaces/propsInterfaces';
+import DraggableTask from '../DraggableTask/DraggableTask';
 
-type ColumnType = 'todo' | 'inProgress' | 'done';
+export type ColumnType = 'Backlog' | 'InProgress' | 'Done';
+type IssuesState = Record<ColumnType, IBoardIssue[]>;
 
-type TasksState = Record<ColumnType, string[]>;
+function KanbanBoard({
+  issues: externalIssues,
+  changeIssueStatus,
+  getIssueById,
+  handleOpenPopup,
+  className,
+}: IKanbanBoardProps) {
+  const [issues, setIssues] = useState<IssuesState>({
+    Backlog: [],
+    InProgress: [],
+    Done: [],
+  });
 
-const initialTasks: TasksState = {
-  todo: ['Задача 1', 'Задача 3'],
-  inProgress: ['Задача 4'],
-  done: ['Задача 2'],
-};
+  useEffect(() => {
+    if (!externalIssues || !Array.isArray(externalIssues)) return;
 
-function KanbanBoard() {
-  const [tasks, setTasks] = useState<TasksState>(initialTasks);
+    const organized: IssuesState = {
+      Backlog: [],
+      InProgress: [],
+      Done: [],
+    };
 
-  const onDragEnd = (result: DropResult) => {
+    for (const issue of externalIssues) {
+      organized[issue.status].push(issue);
+    }
+
+    setIssues(organized);
+  }, [externalIssues]);
+
+  const onDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
-    if (!destination) return;
+    if (!destination || !issues) return;
 
     if (source.droppableId === destination.droppableId && source.index === destination.index)
       return;
 
-    const sourceColumn = [...tasks[source.droppableId as ColumnType]];
-    const [movedTask] = sourceColumn.splice(source.index, 1);
+    const sourceColumn = source.droppableId as ColumnType;
+    const destinationColumn = destination.droppableId as ColumnType;
 
-    const destinationColumn = [...tasks[destination.droppableId as ColumnType]];
-    destinationColumn.splice(destination.index, 0, movedTask);
+    const prevIssues: IssuesState = {
+      Backlog: [...issues.Backlog],
+      InProgress: [...issues.InProgress],
+      Done: [...issues.Done],
+    };
 
-    setTasks(prev => ({
-      ...prev,
-      [source.droppableId]: sourceColumn,
-      [destination.droppableId]: destinationColumn,
-    }));
+    const sourceItems = [...issues[sourceColumn]];
+    const destinationItems =
+      sourceColumn === destinationColumn ? [...sourceItems] : [...issues[destinationColumn]];
+
+    const [movedIssue] = sourceItems.splice(source.index, 1);
+
+    if (sourceColumn !== destinationColumn) {
+      try {
+        await changeIssueStatus(movedIssue.id.toString(), destinationColumn);
+
+        destinationItems.splice(destination.index, 0, movedIssue);
+
+        setIssues({
+          ...issues,
+          [sourceColumn]: sourceItems,
+          [destinationColumn]: destinationItems,
+        });
+      } catch (error) {
+        console.error('Ошибка обновления статуса задачи:', error);
+        setIssues(prevIssues);
+        alert('Не удалось обновить задачу. Она возвращена обратно.');
+      }
+    } else {
+      destinationItems.splice(destination.index, 0, movedIssue);
+
+      setIssues({
+        ...issues,
+        [sourceColumn]: destinationItems,
+      });
+    }
   };
+
+  function onClick() {
+    handleOpenPopup();
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="kanban-board">
-        {(Object.keys(tasks) as ColumnType[]).map(columnId => (
+        {(Object.keys(issues) as ColumnType[]).map(columnId => (
           <Droppable droppableId={columnId} key={columnId}>
             {provided => (
               <div className="kanban-column" ref={provided.innerRef} {...provided.droppableProps}>
                 <h2 className="kanban-column__title">{getTitle(columnId)}</h2>
-                {tasks[columnId].map((task, index) => (
-                  <Draggable key={task} draggableId={task} index={index}>
+                {issues[columnId].map((task, index) => (
+                  <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                     {provided => (
-                      <div
-                        className="kanban-task"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {task}
-                      </div>
+                      <DraggableTask
+                        getIssueById={getIssueById}
+                        task={task}
+                        provided={provided}
+                        onClick={onClick}
+                        className={className}
+                      />
                     )}
                   </Draggable>
                 ))}
@@ -70,11 +123,11 @@ function KanbanBoard() {
 
 const getTitle = (id: ColumnType): string => {
   switch (id) {
-    case 'todo':
+    case 'Backlog':
       return 'To do';
-    case 'inProgress':
+    case 'InProgress':
       return 'In progress';
-    case 'done':
+    case 'Done':
       return 'Done';
     default:
       return '';

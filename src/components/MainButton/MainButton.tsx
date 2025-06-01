@@ -1,8 +1,13 @@
 import React from 'react';
 import './MainButton.css';
+import { IMainButtonProps } from '../../interfaces/propsInterfaces';
 
-function MainButton() {
-  return <button className="header__button">Создать задачу</button>;
+function MainButton(props: IMainButtonProps) {
+  return (
+    <button className="header__button" onClick={props.handleOpenPopup}>
+      Создать задачу
+    </button>
+  );
 }
 
 export default MainButton;

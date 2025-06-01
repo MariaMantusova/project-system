@@ -1,27 +1,42 @@
 import React from 'react';
 import './Search.css';
-import { Input, Select } from 'antd';
+import { Select } from 'antd';
+import SearchInput from '../SearchInput/SearchInput';
+import { ISearchProps } from '../../interfaces/propsInterfaces';
+import { statusOptions } from '../../data/searchOptions';
 
-const { Search } = Input;
+function SearchSection(props: ISearchProps) {
+  const projectOptions: { value: number; label: string }[] = props.boards.map(item => ({
+    value: item.id,
+    label: `${item.id}. ${item.name}`,
+  }));
 
-function SearchSection() {
-  const projectOptions: { value: string; label: string }[] = [
-    { value: 'JS project', label: 'JS project' },
-    { value: 'Mariia', label: 'Mariia' },
-    { value: 'Sevak', label: 'Sevak' },
-  ];
+  function onChangeSelectStatus(value: string) {
+    props.setSelectStatus(value);
+  }
 
-  const statusOptions: { value: string; label: string }[] = [
-    { value: 'todo', label: 'To do' },
-    { value: 'progress', label: 'In progress' },
-    { value: 'done', label: 'Done' },
-  ];
+  function onChangeSelectProject(value: number) {
+    props.setSelectProject(value);
+  }
 
   return (
     <section className="search">
-      <Search className="search__input" placeholder="Поиск" enterButton />
-      <Select placeholder="Выбрать статус" options={statusOptions} />
-      <Select placeholder="Выбрать доску" options={projectOptions} />
+      <SearchInput
+        field={props.field}
+        setField={props.setField}
+        query={props.query}
+        setQuery={props.setQuery}
+      />
+      <Select
+        onChange={onChangeSelectStatus}
+        placeholder="Выбрать статус"
+        options={statusOptions}
+      />
+      <Select
+        placeholder="Выбрать доску"
+        options={projectOptions}
+        onChange={onChangeSelectProject}
+      />
     </section>
   );
 }

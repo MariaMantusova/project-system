@@ -4,10 +4,28 @@
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  width: 60%;
+  width: 100%;
+  margin-top: 20px;
+  transition: transform 0.3s ease;
+}
+
+.list__item_button:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .list__item__title {
   font-size: 18px;
   margin: 0;
+}
+
+.list__item__link {
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--main-orange-color);
+  transition: opacity 0.5s ease;
+}
+
+.list__item__link:hover {
+  opacity: 0.6;
 }
