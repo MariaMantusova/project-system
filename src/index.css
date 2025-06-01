@@ -1,4 +1,10 @@
-html, body {
+:root {
+  --main-green-color: #a7beae;
+  --main-orange-color: #b85042;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
   font-family:
