@@ -14,6 +14,12 @@
   padding: 15px 10px;
   box-sizing: border-box;
   font-size: 14px;
+  font-family: inherit;
+}
+
+textarea.form__input {
+  resize: vertical;
+  overflow: auto;
 }
 
 .form__select {

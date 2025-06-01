@@ -7,6 +7,7 @@ import { IPopupFormProps } from '../../interfaces/propsInterfaces';
 function PopupForm(props: IPopupFormProps) {
   function handleClose() {
     props.setIsOpened(false);
+    if (props.setCurrentIssue) props.setCurrentIssue(null);
   }
 
   return (
@@ -15,8 +16,11 @@ function PopupForm(props: IPopupFormProps) {
         <p className="close-icon" onClick={handleClose}>
           &#x2715;
         </p>
-        <h1 className="popup__title">{props.title}</h1>
+        <h1 className="popup__title">
+          {props.currentIssue ? 'Редактировать задачу' : 'Создать задачу'}
+        </h1>
         <MainForm
+          currentIssue={props.currentIssue}
           users={props.users}
           boards={props.boards}
           handleClose={handleClose}

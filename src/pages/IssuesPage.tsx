@@ -67,12 +67,14 @@ function IssuesPage(props: IIssuesPageProps) {
       />
       <Footer />
       <PopupForm
+        setCurrentIssue={props.setCurrentIssue}
         title="Создать задачу"
         users={props.users}
         isOpened={props.isPopupOpen}
         boards={props.boards}
         createIssue={props.createIssue}
         setIsOpened={props.setIsPopupOpen}
+        currentIssue={props.currentIssue}
       />
     </>
   );

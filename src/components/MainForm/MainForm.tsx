@@ -8,71 +8,66 @@ import { useInput } from '../../hooks/ValidationHook/ValidationHook';
 function MainForm(props: IMainFormProps) {
   const title = useInput('', { isEmpty: true });
   const description = useInput('', { isEmpty: true });
-  const [projectId, setProjectId] = useState<number | undefined>();
-  const [assigneeId, setAssigneeId] = useState<number | undefined>();
-  const [priority, setPriority] = useState<string | undefined>();
-  const [status, setStatus] = useState<string>('');
 
-  const projectOptions: { value: number; label: string }[] = props.boards.map(item => ({
+  const [projectId, setProjectId] = useState<number | null>(null);
+  const [assigneeId, setAssigneeId] = useState<number | null>(null);
+  const [priority, setPriority] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+
+  const projectOptions = props.boards.map(item => ({
     value: item.id,
     label: `${item.id}. ${item.name}`,
   }));
 
-  const assigneeOptions: { value: number; label: string }[] = props.users.map(item => ({
+  const assigneeOptions = props.users.map(item => ({
     value: item.id,
     label: item.fullName,
   }));
 
   useEffect(() => {
     if (props.currentIssue) {
-      title.setValue(props.currentIssue.title);
-      description.setValue(props.currentIssue.description);
-      setProjectId(props.currentIssue.boardId);
-      setAssigneeId(props.currentIssue.assignee.id);
-      setPriority(props.currentIssue.priority);
+      title.setValue(props.currentIssue.title ?? '');
+      description.setValue(props.currentIssue.description ?? '');
+      setAssigneeId(props.currentIssue.assignee?.id ?? null);
+      setPriority(props.currentIssue.priority ?? null);
+      setStatus(props.currentIssue.status ?? 'To do');
+
+      props.boards.forEach(item => {
+        if (item.name === props.currentIssue?.boardName) setProjectId(item.id);
+      });
+    } else {
+      title.setValue('');
+      description.setValue('');
+      setAssigneeId(null);
+      setPriority(null);
+      setStatus(null);
+      setProjectId(null);
     }
   }, [props.currentIssue]);
-
-  function handleChangeProject(value: number) {
-    setProjectId(value);
-  }
-
-  function handleChangeAssignee(value: number) {
-    setAssigneeId(value);
-  }
-
-  function handleChangePriority(value: string) {
-    setPriority(value);
-  }
-
-  function handleChangeStatus(value: string) {
-    setStatus(value);
-  }
 
   function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    if (props.createIssue) {
-      props.createIssue({
-        assigneeId: assigneeId,
-        boardId: projectId,
-        description: description.value,
-        priority: priority,
-        title: title.value,
-      });
+    const payload = {
+      assigneeId: assigneeId ?? undefined,
+      boardId: projectId ?? undefined,
+      description: description.value,
+      priority: priority ?? undefined,
+      title: title.value,
+    };
 
+    if (props.createIssue) {
+      props.createIssue(payload);
       title.setValue('');
       description.setValue('');
-      setAssigneeId(undefined);
-      setProjectId(undefined);
-      setPriority(undefined);
-    } else if (props.changeIssue) {
-      props.changeIssue(props.currentIssue ? props.currentIssue.id.toString() : '', {
-        assigneeId: assigneeId,
-        status: status,
-        description: description.value,
-        priority: priority,
-        title: title.value,
+      setAssigneeId(null);
+      setProjectId(null);
+      setPriority(null);
+      setStatus('To do');
+    } else if (props.changeIssue && props.currentIssue) {
+      props.changeIssue(props.currentIssue.id.toString(), {
+        ...payload,
+        status,
       });
     }
 
@@ -99,36 +94,37 @@ function MainForm(props: IMainFormProps) {
       <Select
         className="form__select"
         showSearch
-        onChange={handleChangeProject}
+        disabled={!!props.currentIssue}
+        onChange={setProjectId}
         value={projectId}
         placeholder="Проект"
         options={projectOptions}
       />
       <Select
         className="form__select"
-        onChange={handleChangeStatus}
-        value={status}
         showSearch
+        onChange={setStatus}
+        value={status}
         placeholder="Статус"
         options={statusOptions}
       />
       <Select
         className="form__select"
         showSearch
-        onChange={handleChangePriority}
+        onChange={setPriority}
+        value={priority}
         placeholder="Приоритет"
         options={priorityOptions}
-        value={priority}
       />
       <Select
         className="form__select"
-        onChange={handleChangeAssignee}
         showSearch
+        onChange={setAssigneeId}
         value={assigneeId}
         placeholder="Исполнитель"
         options={assigneeOptions}
       />
-      <button className="form__button">Создать</button>
+      <button className="form__button">{props.currentIssue ? 'Сохранить' : 'Создать'}</button>
     </form>
   );
 }

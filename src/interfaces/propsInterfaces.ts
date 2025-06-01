@@ -33,13 +33,14 @@ export interface IPopupFormProps {
   createIssue?: (newIssue: INewIssue) => void;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;
-  currentIssue?: IIssue;
+  currentIssue?: IIssue | null;
+  setCurrentIssue?: React.Dispatch<React.SetStateAction<IIssue | null>>;
 }
 
 export interface IMainFormProps {
   createIssue?: (newIssue: INewIssue) => void;
   changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;
-  currentIssue?: IIssue;
+  currentIssue?: IIssue | null;
   boards: IBoard[];
   users: IUser[];
   handleClose: () => void;
@@ -81,6 +82,7 @@ export interface IHeaderProps {
 }
 
 export interface IIssuesPageProps {
+  setCurrentIssue: React.Dispatch<React.SetStateAction<IIssue | null>>;
   issues: IIssue[];
   boards: IBoard[];
   handleOpenPopup: () => void;
@@ -89,6 +91,7 @@ export interface IIssuesPageProps {
   setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isPopupOpen: boolean;
   getIssueById: (id: string) => void;
+  currentIssue: IIssue | null;
 }
 
 export interface IBoardsPageProps {

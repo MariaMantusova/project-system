@@ -40,7 +40,7 @@ function App() {
   const [issues, setIssues] = useState<IIssue[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [boardIssues, setBoardIssues] = useState<IBoardIssue[]>([]);
-  const [currentIssue, setCurrentIssue] = useState<IIssue>();
+  const [currentIssue, setCurrentIssue] = useState<IIssue | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ function App() {
 
   function getIssueById(id: string) {
     IssueApi.getIssueById(id)
-      .then(issue => setCurrentIssue(issue))
+      .then(issue => setCurrentIssue(issue.data))
       .catch(err => console.log(err));
   }
 
@@ -151,6 +151,7 @@ function App() {
         path="/issues"
         element={
           <IssuesPage
+            setCurrentIssue={setCurrentIssue}
             createIssue={createIssue}
             setIsPopupOpen={setIsPopupOpen}
             isPopupOpen={isPopupOpen}
@@ -159,6 +160,7 @@ function App() {
             issues={issues}
             boards={boards}
             getIssueById={getIssueById}
+            currentIssue={currentIssue}
           />
         }
       />

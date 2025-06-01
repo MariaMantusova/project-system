@@ -39,7 +39,7 @@ export interface INewIssue {
 
 export interface IUpdateIssue {
   assigneeId: number | undefined;
-  status: string;
+  status: string | null;
   description: string;
   priority: string | undefined;
   title: string;
