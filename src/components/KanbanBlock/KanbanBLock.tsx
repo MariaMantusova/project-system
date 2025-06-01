@@ -7,7 +7,13 @@ function KanbanBlock(props: IKanbanBlockProps) {
   return (
     <section className="board-container">
       <h1 className="board__title">{props.boardTitle}</h1>
-      <KanbanBoard issues={props.boardIssues} changeIssueStatus={props.changeIssueStatus} />
+      <KanbanBoard
+        className="kanban-task_button"
+        issues={props.boardIssues}
+        getIssueById={props.getIssueById}
+        handleOpenPopup={props.handleOpenPopup}
+        changeIssueStatus={props.changeIssueStatus}
+      />
     </section>
   );
 }

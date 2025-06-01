@@ -50,7 +50,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getIssues()
+    getIssues();
   }, [currentIssue]);
 
   function getBoardById(id: string) {
@@ -139,6 +139,10 @@ function App() {
         path="/board/:id"
         element={
           <BoardPage
+            changeIssue={updateIssue}
+            setCurrentIssue={setCurrentIssue}
+            currentIssue={currentIssue}
+            getIssueById={getIssueById}
             setIsPopupOpen={setIsPopupOpen}
             isPopupOpen={isPopupOpen}
             handleOpenPopup={handleOpenPopup}

@@ -61,12 +61,17 @@ export interface IListItemProps {
 
 export interface IKanbanBoardProps {
   issues: IBoardIssue[];
+  handleOpenPopup: () => void;
+  className: string;
+  getIssueById: (id: string) => void;
   changeIssueStatus: (id: string, status: string) => void;
 }
 
 export interface IKanbanBlockProps {
   boardIssues: IBoardIssue[];
   boardTitle: string;
+  getIssueById: (id: string) => void;
+  handleOpenPopup: () => void;
   changeIssueStatus: (id: string, status: string) => void;
 }
 
@@ -106,9 +111,13 @@ export interface IBoardsPageProps {
 
 export interface IBoardPageProps {
   boardIssues: IBoardIssue[];
+  getIssueById: (id: string) => void;
+  currentIssue: IIssue | null;
+  setCurrentIssue: React.Dispatch<React.SetStateAction<IIssue | null>>;
   createIssue: (newIssue: INewIssue) => void;
   boards: IBoard[];
   users: IUser[];
+  changeIssue: (id: string, updateIssue: IUpdateIssue) => void;
   getBoardById: (id: string) => void;
   changeIssueStatus: (id: string, status: string) => void;
   handleOpenPopup: () => void;

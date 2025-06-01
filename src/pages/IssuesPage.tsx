@@ -66,7 +66,8 @@ function IssuesPage(props: IIssuesPageProps) {
         handleOpenPopup={props.handleOpenPopup}
       />
       <Footer />
-      <PopupForm changeIssue={props.changeIssue}
+      <PopupForm
+        changeIssue={props.changeIssue}
         setCurrentIssue={props.setCurrentIssue}
         title="Создать задачу"
         users={props.users}

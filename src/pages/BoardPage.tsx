@@ -12,7 +12,7 @@ function BoardPage(props: IBoardPageProps) {
 
   useEffect(() => {
     if (id) props.getBoardById(id);
-  }, [id]);
+  }, [id, props.currentIssue]);
 
   useEffect(() => {
     if (!id || props.boards.length === 0) return;
@@ -28,14 +28,19 @@ function BoardPage(props: IBoardPageProps) {
         changeIssueStatus={props.changeIssueStatus}
         boardIssues={props.boardIssues}
         boardTitle={title}
+        getIssueById={props.getIssueById}
+        handleOpenPopup={props.handleOpenPopup}
       />
       <PopupForm
+        changeIssue={props.changeIssue}
+        setCurrentIssue={props.setCurrentIssue}
         boards={props.boards}
         createIssue={props.createIssue}
         setIsOpened={props.setIsPopupOpen}
         title="Создать задачу"
         isOpened={props.isPopupOpen}
         users={props.users}
+        currentIssue={props.currentIssue}
       />
       <Footer />
     </>

@@ -3,11 +3,18 @@ import './KanbanBoard.css';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { IBoardIssue } from '../../interfaces/mainInterfaces';
 import { IKanbanBoardProps } from '../../interfaces/propsInterfaces';
+import DraggableTask from '../DraggableTask/DraggableTask';
 
 export type ColumnType = 'Backlog' | 'InProgress' | 'Done';
 type IssuesState = Record<ColumnType, IBoardIssue[]>;
 
-function KanbanBoard({ issues: externalIssues, changeIssueStatus }: IKanbanBoardProps) {
+function KanbanBoard({
+  issues: externalIssues,
+  changeIssueStatus,
+  getIssueById,
+  handleOpenPopup,
+  className,
+}: IKanbanBoardProps) {
   const [issues, setIssues] = useState<IssuesState>({
     Backlog: [],
     InProgress: [],
@@ -65,6 +72,10 @@ function KanbanBoard({ issues: externalIssues, changeIssueStatus }: IKanbanBoard
     });
   };
 
+  function onClick() {
+    handleOpenPopup();
+  }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="kanban-board">
@@ -76,14 +87,13 @@ function KanbanBoard({ issues: externalIssues, changeIssueStatus }: IKanbanBoard
                 {issues[columnId].map((task, index) => (
                   <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                     {provided => (
-                      <div
-                        className="kanban-task"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        {task.title}
-                      </div>
+                      <DraggableTask
+                        getIssueById={getIssueById}
+                        task={task}
+                        provided={provided}
+                        onClick={onClick}
+                        className={className}
+                      />
                     )}
                   </Draggable>
                 ))}
