@@ -61,6 +61,7 @@ function IssuesPage(props: IIssuesPageProps) {
         selectProject={selectProject}
       />
       <IssuesBlock
+        getIssueById={props.getIssueById}
         issues={isSearching ? filteredIssues : props.issues}
         handleOpenPopup={props.handleOpenPopup}
       />

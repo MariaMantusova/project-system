@@ -11,6 +11,10 @@ export interface IUser {
   teamName: string;
 }
 
+export interface IValidations {
+  isEmpty: boolean;
+}
+
 export interface IBoardIssue {
   id: number;
   title: string;
@@ -28,6 +32,14 @@ export interface IBoardIssue {
 export interface INewIssue {
   assigneeId: number | undefined;
   boardId: number | undefined;
+  description: string;
+  priority: string | undefined;
+  title: string;
+}
+
+export interface IUpdateIssue {
+  assigneeId: number | undefined;
+  status: string;
   description: string;
   priority: string | undefined;
   title: string;

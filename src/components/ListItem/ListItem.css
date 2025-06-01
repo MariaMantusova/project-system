@@ -6,6 +6,12 @@
   padding: 20px;
   width: 100%;
   margin-top: 20px;
+  transition: transform 0.3s ease;
+}
+
+.list__item_button:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 .list__item__title {

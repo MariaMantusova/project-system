@@ -8,7 +8,7 @@ import ErrorPage from '../../pages/ErrorPage';
 import { BoardApi } from '../../utils/BoardsApi';
 import { IssueApi } from '../../utils/IssuesApi';
 import { UserApi } from '../../utils/UsersApi';
-import { IBoardIssue, INewIssue, IUser } from '../../interfaces/mainInterfaces';
+import { IBoardIssue, INewIssue, IUpdateIssue, IUser } from '../../interfaces/mainInterfaces';
 
 export interface IBoard {
   description: string;
@@ -40,15 +40,12 @@ function App() {
   const [issues, setIssues] = useState<IIssue[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [boardIssues, setBoardIssues] = useState<IBoardIssue[]>([]);
+  const [currentIssue, setCurrentIssue] = useState<IIssue>();
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   useEffect(() => {
     getBoards();
     getUsers();
-    getIssues();
-  }, []);
-
-  useEffect(() => {
     getIssues();
   }, []);
 
@@ -87,6 +84,25 @@ function App() {
       .then(res => {
         const createdId = res.data.id;
         return IssueApi.getIssueById(createdId);
+      })
+      .then(fullIssue => {
+        if (issues) {
+          setIssues([...issues, fullIssue.data]);
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  function getIssueById(id: string) {
+    IssueApi.getIssueById(id)
+      .then(issue => setCurrentIssue(issue))
+      .catch(err => console.log(err));
+  }
+
+  function updateIssue(id: string, updateIssue: IUpdateIssue) {
+    IssueApi.updateIssue(id, updateIssue)
+      .then(res => {
+        if (res.message) return IssueApi.getIssueById(id);
       })
       .then(fullIssue => {
         if (issues) {
@@ -142,6 +158,7 @@ function App() {
             handleOpenPopup={handleOpenPopup}
             issues={issues}
             boards={boards}
+            getIssueById={getIssueById}
           />
         }
       />

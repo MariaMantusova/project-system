@@ -14,7 +14,14 @@ function IssuesBlock(props: IIssuesBlockProps) {
         style={{ width: '80%', minHeight: '60vh', gap: '20px' }}
         pagination={{ position: 'bottom', align: 'center', pageSize: 5 }}
         renderItem={(issue: IIssue) => (
-          <ListItem id={issue.id} title={issue.title} key={issue.id} />
+          <ListItem
+            handleOpenPopup={props.handleOpenPopup}
+            getIssueById={props.getIssueById}
+            class="list__item_button"
+            id={issue.id}
+            title={issue.title}
+            key={issue.id}
+          />
         )}
       />
       <MainButton handleOpenPopup={props.handleOpenPopup} />

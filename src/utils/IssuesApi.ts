@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IApiOptions, INewIssue } from '../interfaces/mainInterfaces';
+import { IApiOptions, INewIssue, IUpdateIssue } from '../interfaces/mainInterfaces';
 
 class IssuesApi {
   private _url: string;
@@ -45,6 +45,16 @@ class IssuesApi {
   getIssueById(id: string | undefined) {
     return axios
       .get(`${this._url}/${id}`, { headers: this._header })
+      .then(response => response.data)
+      .catch(error => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  }
+
+  updateIssue(id: string | undefined, updateIssue: IUpdateIssue) {
+    return axios
+      .put(`${this._url}/update/${id}`, { ...updateIssue }, { headers: this._header })
       .then(response => response.data)
       .catch(error => {
         console.log(error);

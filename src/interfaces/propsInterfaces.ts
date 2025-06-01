@@ -1,6 +1,6 @@
 import React from 'react';
 import { IBoard, IIssue } from '../components/App/App';
-import { IUser, INewIssue, IBoardIssue } from './mainInterfaces';
+import { IUser, INewIssue, IBoardIssue, IUpdateIssue } from './mainInterfaces';
 
 export interface ISearchInputProps {
   query: string;
@@ -30,12 +30,16 @@ export interface IPopupFormProps {
   users: IUser[];
   isOpened: boolean;
   boards: IBoard[];
-  createIssue: (newIssue: INewIssue) => void;
+  createIssue?: (newIssue: INewIssue) => void;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;
+  currentIssue?: IIssue;
 }
 
 export interface IMainFormProps {
-  createIssue: (newIssue: INewIssue) => void;
+  createIssue?: (newIssue: INewIssue) => void;
+  changeIssue?: (id: string, updateIssue: IUpdateIssue) => void;
+  currentIssue?: IIssue;
   boards: IBoard[];
   users: IUser[];
   handleClose: () => void;
@@ -49,6 +53,9 @@ export interface IListItemProps {
   id: number;
   title: string;
   children?: React.ReactNode;
+  class?: string;
+  getIssueById?: (id: string) => void;
+  handleOpenPopup?: () => void;
 }
 
 export interface IKanbanBoardProps {
@@ -65,6 +72,7 @@ export interface IKanbanBlockProps {
 export interface IIssuesBlockProps {
   issues: IIssue[];
   handleOpenPopup: () => void;
+  getIssueById: (id: string) => void;
 }
 
 export interface IHeaderProps {
@@ -80,6 +88,7 @@ export interface IIssuesPageProps {
   createIssue: (newIssue: INewIssue) => void;
   setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isPopupOpen: boolean;
+  getIssueById: (id: string) => void;
 }
 
 export interface IBoardsPageProps {
