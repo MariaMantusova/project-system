@@ -17,7 +17,7 @@ function IssuesPage(props: IIssuesPageProps) {
 
   useEffect(() => {
     applyFilters();
-  }, [searchQuery, searchField, selectStatus, selectProject]);
+  }, [searchQuery, searchField, selectStatus, selectProject, props.issues]);
 
   function applyFilters() {
     const searchQueryLow = searchQuery.toLowerCase().trim();
@@ -66,7 +66,7 @@ function IssuesPage(props: IIssuesPageProps) {
         handleOpenPopup={props.handleOpenPopup}
       />
       <Footer />
-      <PopupForm
+      <PopupForm changeIssue={props.changeIssue}
         setCurrentIssue={props.setCurrentIssue}
         title="Создать задачу"
         users={props.users}

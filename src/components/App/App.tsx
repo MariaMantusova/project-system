@@ -49,6 +49,10 @@ function App() {
     getIssues();
   }, []);
 
+  useEffect(() => {
+    getIssues()
+  }, [currentIssue]);
+
   function getBoardById(id: string) {
     BoardApi.getBoardById(id)
       .then(items => setBoardIssues(items.data))
@@ -151,6 +155,7 @@ function App() {
         path="/issues"
         element={
           <IssuesPage
+            changeIssue={updateIssue}
             setCurrentIssue={setCurrentIssue}
             createIssue={createIssue}
             setIsPopupOpen={setIsPopupOpen}

@@ -25,6 +25,7 @@ function PopupForm(props: IPopupFormProps) {
           boards={props.boards}
           handleClose={handleClose}
           createIssue={props.createIssue}
+          changeIssue={props.changeIssue}
         />
         <Link className="popup__link" to="/board/9">
           Перейти на доску

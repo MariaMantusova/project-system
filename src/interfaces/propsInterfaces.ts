@@ -88,6 +88,7 @@ export interface IIssuesPageProps {
   handleOpenPopup: () => void;
   users: IUser[];
   createIssue: (newIssue: INewIssue) => void;
+  changeIssue: (id: string, updateIssue: IUpdateIssue) => void;
   setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isPopupOpen: boolean;
   getIssueById: (id: string) => void;

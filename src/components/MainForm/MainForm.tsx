@@ -56,7 +56,7 @@ function MainForm(props: IMainFormProps) {
       title: title.value,
     };
 
-    if (props.createIssue) {
+    if (!props.currentIssue && props.createIssue) {
       props.createIssue(payload);
       title.setValue('');
       description.setValue('');
