@@ -139,6 +139,7 @@ function App() {
         path="/board/:id"
         element={
           <BoardPage
+            issues={issues}
             changeIssue={updateIssue}
             setCurrentIssue={setCurrentIssue}
             currentIssue={currentIssue}

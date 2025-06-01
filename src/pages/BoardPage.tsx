@@ -12,7 +12,7 @@ function BoardPage(props: IBoardPageProps) {
 
   useEffect(() => {
     if (id) props.getBoardById(id);
-  }, [id, props.currentIssue]);
+  }, [id, props.currentIssue, props.issues]);
 
   useEffect(() => {
     if (!id || props.boards.length === 0) return;

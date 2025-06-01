@@ -110,6 +110,7 @@ export interface IBoardsPageProps {
 }
 
 export interface IBoardPageProps {
+  issues: IIssue[];
   boardIssues: IBoardIssue[];
   getIssueById: (id: string) => void;
   currentIssue: IIssue | null;
