@@ -1,6 +1,7 @@
 {
   "name": "project-system",
   "version": "0.1.0",
+  "homepage": "/issues",
   "private": true,
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
