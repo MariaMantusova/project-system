@@ -74,10 +74,20 @@ export interface IHeaderProps {
 export interface IIssuesPageProps {
   issues: IIssue[];
   boards: IBoard[];
+  handleOpenPopup: () => void;
+  users: IUser[];
+  createIssue: (newIssue: INewIssue) => void;
+  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isPopupOpen: boolean;
 }
 
 export interface IBoardsPageProps {
   boards: IBoard[];
+  handleOpenPopup: () => void;
+  users: IUser[];
+  createIssue: (newIssue: INewIssue) => void;
+  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isPopupOpen: boolean;
 }
 
 export interface IBoardPageProps {
@@ -87,4 +97,7 @@ export interface IBoardPageProps {
   users: IUser[];
   getBoardById: (id: string) => void;
   changeIssueStatus: (id: string, status: string) => void;
+  handleOpenPopup: () => void;
+  setIsPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isPopupOpen: boolean;
 }

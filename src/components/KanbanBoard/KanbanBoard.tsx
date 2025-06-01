@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './KanbanBoard.css';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { IBoardIssue } from '../../pages/BoardPage';
+import { IBoardIssue } from '../../interfaces/mainInterfaces';
 import { IKanbanBoardProps } from '../../interfaces/propsInterfaces';
 
 export type ColumnType = 'Backlog' | 'InProgress' | 'Done';

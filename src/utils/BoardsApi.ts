@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IApiOptions } from './IssuesApi';
+import { IApiOptions } from '../interfaces/mainInterfaces';
 
 class BoardsApi {
   private _url: string;

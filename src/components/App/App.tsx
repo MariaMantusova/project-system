@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import './App.css';
-import BoardPage, { IBoardIssue } from '../../pages/BoardPage';
+import BoardPage from '../../pages/BoardPage';
 import BoardsPage from '../../pages/BoardsPage';
 import IssuesPage from '../../pages/IssuesPage';
 import ErrorPage from '../../pages/ErrorPage';
 import { BoardApi } from '../../utils/BoardsApi';
-import { INewIssue, IssueApi } from '../../utils/IssuesApi';
+import { IssueApi } from '../../utils/IssuesApi';
 import { UserApi } from '../../utils/UsersApi';
-import { IUser } from '../../interfaces/mainInterfaces';
+import { IBoardIssue, INewIssue, IUser } from '../../interfaces/mainInterfaces';
 
 export interface IBoard {
   description: string;
@@ -40,11 +40,16 @@ function App() {
   const [issues, setIssues] = useState<IIssue[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [boardIssues, setBoardIssues] = useState<IBoardIssue[]>([]);
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   useEffect(() => {
     getBoards();
-    getIssues();
     getUsers();
+    getIssues();
+  }, []);
+
+  useEffect(() => {
+    getIssues();
   }, []);
 
   function getBoardById(id: string) {
@@ -79,21 +84,44 @@ function App() {
 
   function createIssue(newIssue: INewIssue) {
     IssueApi.createIssue(newIssue)
-      .then(items => {
+      .then(res => {
+        const createdId = res.data.id;
+        return IssueApi.getIssueById(createdId);
+      })
+      .then(fullIssue => {
         if (issues) {
-          setIssues([...issues, items.data]);
+          setIssues([...issues, fullIssue.data]);
         }
       })
       .catch(err => console.log(err));
   }
 
+  function handleOpenPopup() {
+    setIsPopupOpen(true);
+  }
+
   return (
     <Routes>
-      <Route path="/boards" element={<BoardsPage boards={boards} />} />
+      <Route
+        path="/boards"
+        element={
+          <BoardsPage
+            boards={boards}
+            handleOpenPopup={handleOpenPopup}
+            users={users}
+            createIssue={createIssue}
+            setIsPopupOpen={setIsPopupOpen}
+            isPopupOpen={isPopupOpen}
+          />
+        }
+      />
       <Route
         path="/board/:id"
         element={
           <BoardPage
+            setIsPopupOpen={setIsPopupOpen}
+            isPopupOpen={isPopupOpen}
+            handleOpenPopup={handleOpenPopup}
             users={users}
             createIssue={createIssue}
             boards={boards}
@@ -103,7 +131,20 @@ function App() {
           />
         }
       />
-      <Route path="/issues" element={<IssuesPage issues={issues} boards={boards} />} />
+      <Route
+        path="/issues"
+        element={
+          <IssuesPage
+            createIssue={createIssue}
+            setIsPopupOpen={setIsPopupOpen}
+            isPopupOpen={isPopupOpen}
+            users={users}
+            handleOpenPopup={handleOpenPopup}
+            issues={issues}
+            boards={boards}
+          />
+        }
+      />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

@@ -5,13 +5,10 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import KanbanBlock from '../components/KanbanBlock/KanbanBLock';
 import { IBoardPageProps } from '../interfaces/propsInterfaces';
-import { IBoardIssue } from '../interfaces/mainInterfaces';
 
 function BoardPage(props: IBoardPageProps) {
   const { id } = useParams<string>();
-  const boardIssues: IBoardIssue[] = props.boardIssues;
   const [title, setTitle] = useState<string>('');
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) props.getBoardById(id);
@@ -21,29 +18,23 @@ function BoardPage(props: IBoardPageProps) {
     if (!id || props.boards.length === 0) return;
 
     const board = props.boards.find(b => b.id === +id);
-    if (board) {
-      setTitle(board.name);
-    }
+    if (board) setTitle(board.name);
   }, [id, props.boards]);
-
-  function handleOpenPopup() {
-    setIsPopupOpen(true);
-  }
 
   return (
     <>
-      <Header pageName="board" handleOpenPopup={handleOpenPopup} />
+      <Header pageName="board" handleOpenPopup={props.handleOpenPopup} />
       <KanbanBlock
         changeIssueStatus={props.changeIssueStatus}
-        boardIssues={boardIssues}
+        boardIssues={props.boardIssues}
         boardTitle={title}
       />
       <PopupForm
         boards={props.boards}
         createIssue={props.createIssue}
-        setIsOpened={setIsPopupOpen}
+        setIsOpened={props.setIsPopupOpen}
         title="Создать задачу"
-        isOpened={isPopupOpen}
+        isOpened={props.isPopupOpen}
         users={props.users}
       />
       <Footer />

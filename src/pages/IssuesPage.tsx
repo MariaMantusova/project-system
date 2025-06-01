@@ -5,6 +5,7 @@ import Search from '../components/Search/Search';
 import { IIssue } from '../components/App/App';
 import IssuesBlock from '../components/IssuesBlock/IssuesBlock';
 import { IIssuesPageProps } from '../interfaces/propsInterfaces';
+import PopupForm from '../components/PopupForm/PopupForm';
 
 function IssuesPage(props: IIssuesPageProps) {
   const [filteredIssues, setFilteredIssues] = React.useState<IIssue[]>([]);
@@ -47,7 +48,7 @@ function IssuesPage(props: IIssuesPageProps) {
 
   return (
     <>
-      {/*<Header pageName="issues" />*/}
+      <Header pageName="issues" handleOpenPopup={props.handleOpenPopup} />
       <Search
         boards={props.boards}
         query={searchQuery}
@@ -61,6 +62,14 @@ function IssuesPage(props: IIssuesPageProps) {
       />
       <IssuesBlock issues={isSearching ? filteredIssues : props.issues} />
       <Footer />
+      <PopupForm
+        title="Создать задачу"
+        users={props.users}
+        isOpened={props.isPopupOpen}
+        boards={props.boards}
+        createIssue={props.createIssue}
+        setIsOpened={props.setIsPopupOpen}
+      />
     </>
   );
 }

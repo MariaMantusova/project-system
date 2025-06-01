@@ -41,6 +41,16 @@ class IssuesApi {
         return Promise.reject(error);
       });
   }
+
+  getIssueById(id: string | undefined) {
+    return axios
+      .get(`${this._url}/${id}`, { headers: this._header })
+      .then(response => response.data)
+      .catch(error => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  }
 }
 
 const BoardsApiOptions: IApiOptions = {
